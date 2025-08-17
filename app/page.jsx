@@ -9,9 +9,9 @@ const page = () => {
   const router = useRouter();
 
   return (
-    <main className="w-full relative items-center flex px-15 justify-center items-center bg-no-repeat bg-cover h-[100dvh] ">
+    <main className="w-full relative flex lg:px-15 px-5 justify-center items-center bg-no-repeat bg-cover h-[100dvh] ">
       <div className='z-20'>
-        <h1 className='lg:text-8xl font-bold'>The Art of Stunning Interior</h1>
+        <h1 className='lg:text-8xl text-2xl font-bold'>The Art of Stunning Interior</h1>
         <div className='m-auto'>
           <p className='pt-5 text-4xl font-semibold'><span className='text-amber-500'>Calculate the cost of your work instantly, </span> based on materials and products choices.</p>
         </div>
