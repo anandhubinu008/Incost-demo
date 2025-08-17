@@ -273,7 +273,7 @@ const handleAdd = (item) => {
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <div className="px-5 py-5 mt-2 bg-cover relative  right-0 top-0 h-[90dvh] rounded-2xl border-1">
+    <div className="px-5 py-5 mt-2 bg-cover relative  right-0 top-0 h-[90dvh] rounded-2xl ">
       {cart.length > 0 && 
       <div className="mt-7 absolute top-0 right-7">
         <Button onClick={() => setIsOpen(true)}>Invoice Preview</Button>
