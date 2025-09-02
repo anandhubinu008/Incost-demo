@@ -474,7 +474,7 @@ const addRow = () => {
               />
             </div>
 
-            <div className="flex justify-end gap-2 p-4 border-t bg-white">
+            <div className="flex justify-end gap-2 p-4 border-t">
               <Button onClick={handlePrint}>Print</Button>
               <Button variant="secondary" onClick={() => setShowPdf(false)}>Close</Button>
             </div>
