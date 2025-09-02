@@ -5,11 +5,18 @@ import { Button } from "../ui/button";
 import { useEffect, useRef } from "react";
 
 
-const Invoice = (cart) => {
+const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
 
-useEffect(() => {
-  console.log(cart)
-, cart})
+  const fullList = [...invoiceList];
+
+  if (
+    draftRow &&
+    draftRow.workMaterial &&
+    draftRow.totalRate !== null &&
+    draftRow.totalRate !== undefined
+  ) {
+    fullList.push(draftRow);
+  }
 
   return (
     <div className="p-6 border border-black text-sm text-black bg-white overflow-auto">
@@ -46,85 +53,50 @@ useEffect(() => {
           <b>MOB:</b> +91 75949 01999
         </p>
       </div>
-      <table className="w-full border-collapse border border-black text-center text-xs">
-        <thead>
-          <tr className="bg-red-700 text-white">
-            <th className="border border-black p-2">S.NO</th>
-            <th className="border border-black p-2">DESCRIPTION OF ITEM</th>
-            <th className="border border-black p-2">UNIT</th>
-            <th className="border border-black p-2">QTY</th>
-            <th className="border border-black p-2">MRP</th>
-            <th className="border border-black p-2">AFTER DISCOUNT</th>
-            <th className="border border-black p-2">TOTAL</th>
+     <table className="w-full border-collapse border border-black text-center text-xs">
+      <thead>
+        <tr className="bg-red-700 text-white">
+          <th className="border border-black p-2">SR.NO</th>
+          <th className="border border-black p-2">WORK</th>
+          <th className="border border-black p-2">MATERIAL</th>
+          <th className="border border-black p-2">LENGTH</th>
+          <th className="border border-black p-2">WIDTH</th>
+          <th className="border border-black p-2">SQ FEET</th>
+          <th className="border border-black p-2">RATE PER SQ FEET</th>
+          <th className="border border-black p-2">DISCOUNT</th>
+          <th className="border border-black p-2">TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        {fullList.map((item, index) => (
+          <tr key={index} className={index === invoiceList.length ? "bg-yellow-50" : ""}>
+            <td className="border border-black p-2">{index + 1}</td>
+            <td className="border border-black p-2">{item.workCategory?.category || item.workCategory}</td>
+            <td className="border border-black p-2">{item.workMaterial?.meterial || item.workMaterial}</td>
+            <td className="border border-black p-2">{item.length}</td>
+            <td className="border border-black p-2">{item.width}</td>
+            <td className="border border-black p-2">{item.sqFeet}</td>
+            <td className="border border-black p-2">{item.ratePerSqFeet}</td>
+            <td className="border border-black p-2">{item.discount}</td>
+            <td className="border border-black p-2">{item.totalRate}</td>
           </tr>
-        </thead>
-        {/* {cart && cart.length > 0  && cart.map((item,index) => ( 
-        <tbody key={index}>
-        
+        ))}
+
           <tr>
-            <td className="border border-black p-2">1</td>
-            <td
-              colSpan={6}
-              className="border border-black bg-gray-200 font-bold text-left p-2"
-            >
-             {item.category}
+            <td colSpan="8" className="border border-black p-2 text-right font-bold">
+              Grand Total
             </td>
-          </tr>
-          <tr>
-            <td className="border border-black p-2">a</td>
-            <td className="border border-black text-left p-2">
-             {item.description}
+            <td className="border border-black p-2 font-bold">
+              {fullList.reduce((sum, row) => sum + (row.totalRate || 0), 0).toFixed(2)}
             </td>
-            <td className="border border-black p-2"></td>
-            <td className="border border-black p-2"></td>
-            <td className="border border-black p-2"></td>
-            <td className="border border-black p-2"></td>
-            <td className="border border-black p-2"></td>
-          </tr>
-          <tr>
-            <td className="border border-black p-2"></td>
-            <td className="border border-black text-left p-2">
-            {item.work}
-            </td>
-            <td className="border border-black p-2">Sqft</td>
-            <td className="border border-black p-2">41</td>
-            <td className="border border-black p-2">106307</td>
-            <td className="border border-black p-2">74415</td>
-            <td className="border border-black p-2"></td>
           </tr>
         </tbody>
-        ))} */}
-        {cart?.cart && cart.cart.length > 0 && cart.cart.map((item, index) => (
-  <tbody key={index}>
-    <tr>
-            <td colSpan={7} className="bg-blue-200 font-bold text-left p-2">
-             {item.category}
-            </td>
-          </tr>
-    <tr>
-      <td className="border border-black p-2">1</td>
-      <td colSpan={6} className="border border-black bg-gray-200 font-bold text-left p-2">
-        {item.work} ( Material : { item.material}) 
-      </td>
-    </tr>
-    <tr>
-      <td className="border border-black p-2"></td>
-      <td className="border border-black text-left p-2">
-        {item.description}
-      </td>
-      <td className="border border-black p-2">Sqft({item.sqft})</td>
-      <td className="border border-black p-2">{item.quantity}</td>
-      <td className="border border-black p-2">{item.price}</td>
-      <td className="border border-black p-2"> {item.price - (item.price * 0.1)}</td>
-      <td className="border border-black p-2">₹{(item.quantity * (item.price - item.price * 0.1)).toFixed(2)}</td>
-    </tr>
-  </tbody>
-))}
+    </table>
 
-      </table>
       {/* <Button onClick={handlePrint}>Print</Button> */}
     </div>
   );
 };
 
 export default Invoice;
+
