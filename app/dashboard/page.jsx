@@ -121,6 +121,10 @@ const page = () => {
   const reset = () => {
     setSelectedCategory(null);
     setSelectedProduct(null);
+
+    setWorkCategory(null);
+    setWorkMaterial(null);
+
     setLength(null);
     setWidth(null);
     setSqft(null);
@@ -130,15 +134,8 @@ const page = () => {
   }
 
 const addRow = () => {
-  if (
-    selectedCategory &&
-    selectedProduct &&
-    length &&
-    width &&
-    sqFeet &&
-    ratePerSqFeet &&
-    totalRate
-  ) {
+
+  if (selectedCategory && selectedProduct && length && width && sqFeet && ratePerSqFeet && discount && totalRate ) {
     const newRow = {
       workCategory: selectedCategory,
       workMaterial: selectedProduct,
@@ -152,6 +149,7 @@ const addRow = () => {
 
     console.log("Adding Row:", newRow);
     setInvoiceList((prev) => [...prev, newRow]);
+
     reset(); 
   }
 
@@ -181,7 +179,7 @@ const addRow = () => {
     if (cat) {
       setSelectedCategory(cat);
     }
-  setWorkCategory(cat.category);
+    setWorkCategory(cat.category);
   };
 
   const handleMaterialChange = (id) => {
@@ -220,109 +218,10 @@ const addRow = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>-</TableCell>
-              <TableCell>
-                <Select onValueChange={handleCategoryChange}>
-                  <SelectTrigger className="w-[180px] bg-blue-100">
-                    <SelectValue placeholder="Select a work" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Works</SelectLabel>
-                      {interiorWorks.map((work, index) => (
-                        <SelectItem key={index} value={work.id}>
-                          {work.category}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </TableCell>
-
-              {selectedCategory ? (
-                <TableCell>
-                  <Select onValueChange={handleMaterialChange}>
-                    <SelectTrigger className="w-[180px] bg-blue-100">
-                      <SelectValue placeholder="Select a material" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Materials</SelectLabel>
-                        {selectedCategory.products.map((m, index) => (
-                          <SelectItem key={index} value={m.id}>
-                            {m.meterial}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </TableCell>
-              ) : (
-                <TableCell> - </TableCell>
-              )}
-              {selectedProduct ? (
-                <>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={length}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={width}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={sqFeet}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={ratePerSqFeet}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={discount}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={
-                        totalRate
-                      }
-                    />
-                  </TableCell>
-                </>
-              ) : (
-                <>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                </>
-              )}
-            </TableRow>
             {
               invoiceList.length > 0 && 
                 invoiceList.map((row, index) => (
-              <TableRow>
+              <TableRow key={`row-${index}`}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
                 <Select  value={row.workCategory?.id}>
@@ -420,6 +319,105 @@ const addRow = () => {
               )}
               </TableRow> ))
             }
+              <TableRow>
+                <TableCell>{invoiceList.length + 1}</TableCell>
+                <TableCell>
+                  <Select value={selectedCategory?.id} onValueChange={handleCategoryChange}>
+                    <SelectTrigger className="w-[180px] bg-blue-100">
+                      <SelectValue placeholder="Select a work" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Works</SelectLabel>
+                        {interiorWorks.map((work, index) => (
+                          <SelectItem key={work.id} value={work.id}>
+                            {work.category}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </TableCell>
+
+                {selectedCategory ? (
+                  <TableCell>
+                    <Select value={selectedProduct?.id} onValueChange={handleMaterialChange}>
+                      <SelectTrigger className="w-[180px] bg-blue-100">
+                        <SelectValue placeholder="Select a material" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Materials</SelectLabel>
+                          {selectedCategory.products.map((m, index) => (
+                            <SelectItem key={m.id} value={m.id}>
+                              {m.meterial}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </TableCell>
+                ) : (
+                  <TableCell> - </TableCell>
+                )}
+                {selectedProduct ? (
+                  <>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25"
+                        value={length}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25"
+                        value={width}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25"
+                        value={sqFeet}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25"
+                        value={ratePerSqFeet}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25"
+                        value={discount}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25"
+                        value={
+                          totalRate
+                        }
+                      />
+                    </TableCell>
+                  </>
+                ) : (
+                  <>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                  </>
+                )}
+              </TableRow>
             <TableRow>
               <TableCell colSpan="7">
                 <div className="items-center flex mt-4">
@@ -427,6 +425,7 @@ const addRow = () => {
                     <Plus className="w-4" />
                   </Button>
                   <Button className="cursor-pointer ms-2" onClick={() => setShowPdf(!showPdf)}>Invoice</Button>
+                  <Button className="cursor-pointer ms-2" >Save</Button>
                 </div>
               </TableCell>
               <TableCell className="font-bold">TOTAL</TableCell>
