@@ -49,8 +49,8 @@ const interiorWorks = [
     products: [
       {
         id: 1,
-        meterial : "Ply Wood",
-        legth: 250,
+        meterial : "Plywood",
+        length: 250,
         width: 83,
         sqfeet : 22,
         ratePerSqFeet : 2233.74,
@@ -58,27 +58,468 @@ const interiorWorks = [
       },
       {
         id: 2,
-        meterial : "Multi Wood",
-        legth: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 3233.74,
-        discount : 10,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        discount: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        discount: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        discount: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        discount: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        discount: 10,
       },
     ],
   },
   {
-    category: "TV",
+    category: "Work area",
     id: 2,
     products: [
       {
         id: 1,
-        meterial : "HDF",
-        legth: 250,
+        meterial : "Plywood",
+        length: 250,
         width: 83,
         sqfeet : 22,
-        ratePerSqFeet : 1233.74,
-        discount : 8,
+        ratePerSqFeet : 2233.74,
+        discount : 20,
+      },
+      {
+        id: 2,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        discount: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        discount: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        discount: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        discount: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        discount: 10,
+      },
+    ],
+  },
+  {
+    category: "Living",
+    id: 3,
+    products: [
+      {
+        id: 1,
+        meterial : "Plywood",
+        length: 250,
+        width: 83,
+        sqfeet : 22,
+        ratePerSqFeet : 2233.74,
+        discount : 20,
+      },
+      {
+        id: 2,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        discount: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        discount: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        discount: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        discount: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        discount: 10,
+      },
+    ],
+  },
+  {
+    category: "Dining",
+    id: 4,
+    products: [
+      {
+        id: 1,
+        meterial : "Plywood",
+        length: 250,
+        width: 83,
+        sqfeet : 22,
+        ratePerSqFeet : 2233.74,
+        discount : 20,
+      },
+      {
+        id: 2,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        discount: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        discount: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        discount: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        discount: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        discount: 10,
+      },
+    ],
+  },
+  {
+    category: "Bed room",
+    id: 5,
+    products: [
+      {
+        id: 1,
+        meterial : "Plywood",
+        length: 250,
+        width: 83,
+        sqfeet : 22,
+        ratePerSqFeet : 2233.74,
+        discount : 20,
+      },
+      {
+        id: 2,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        discount: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        discount: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        discount: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        discount: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        discount: 10,
+      },
+    ],
+  },
+  {
+    category: "Furniture",
+    id: 6,
+    products: [
+      {
+        id: 1,
+        meterial : "Plywood",
+        length: 250,
+        width: 83,
+        sqfeet : 22,
+        ratePerSqFeet : 2233.74,
+        discount : 20,
+      },
+      {
+        id: 2,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        discount: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        discount: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        discount: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        discount: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        discount: 10,
+      },
+    ],
+  },
+  {
+    category: "Bathroom",
+    id: 7,
+      products: [
+      {
+        id: 1,
+        meterial : "Plywood",
+        length: 250,
+        width: 83,
+        sqfeet : 22,
+        ratePerSqFeet : 2233.74,
+        discount : 20,
+      },
+      {
+        id: 2,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        discount: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        discount: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        discount: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        discount: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        discount: 10,
+      },
+    ],
+  },
+  {
+    category: "Ceiling work",
+    id: 8,
+    products: [
+      {
+        id: 1,
+        meterial : "Plywood",
+        length: 250,
+        width: 83,
+        sqfeet : 22,
+        ratePerSqFeet : 2233.74,
+        discount : 20,
+      },
+      {
+        id: 2,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        discount: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        discount: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        discount: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        discount: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        discount: 10,
       },
     ],
   },
@@ -135,7 +576,7 @@ const page = () => {
 
 const addRow = () => {
 
-  if (selectedCategory && selectedProduct && length && width && sqFeet && ratePerSqFeet && discount && totalRate ) {
+  if (selectedCategory && selectedProduct && length && width && sqFeet && ratePerSqFeet && totalRate ) {
     const newRow = {
       workCategory: selectedCategory,
       workMaterial: selectedProduct,
@@ -143,7 +584,6 @@ const addRow = () => {
       width,
       sqFeet,
       ratePerSqFeet,
-      discount,
       totalRate
     };
 
@@ -188,11 +628,11 @@ const addRow = () => {
       setSelectedProduct(mat);
       console.log(mat)
       setWorkMaterial(mat.meterial)
-      setLength(mat.legth);
+      setLength(mat.length);
       setWidth(mat.width);
       setSqFeet(mat.sqfeet);
       setRatePerSqFeet(mat.ratePerSqFeet)
-      setDiscount(mat.discount)
+      // setDiscount(mat.discount)
       setTotalRate(mat.sqfeet * mat.ratePerSqFeet)
     }
   };
@@ -213,7 +653,7 @@ const addRow = () => {
               <TableHead>WIDTH</TableHead>
               <TableHead>SQ FEET</TableHead>
               <TableHead>RATE PER SQ FEET</TableHead>
-              <TableHead>DISCOUNT</TableHead>
+              {/* <TableHead>DISCOUNT</TableHead> */}
               <TableHead>TOTAL RATE</TableHead>
             </TableRow>
           </TableHeader>
@@ -288,7 +728,7 @@ const addRow = () => {
                       value={row.ratePerSqFeet}
                     />
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Input
                       type="text"
                       className="w-25"
@@ -296,7 +736,7 @@ const addRow = () => {
                         row.discount
                       }
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Input
                       type="text"
@@ -313,7 +753,7 @@ const addRow = () => {
                   <TableCell>-</TableCell>
                   <TableCell>-</TableCell>
                   <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
+                  {/* <TableCell>-</TableCell> */}
                   <TableCell>-</TableCell>
                 </>
               )}
@@ -390,13 +830,13 @@ const addRow = () => {
                         value={ratePerSqFeet}
                       />
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <Input
                         type="text"
                         className="w-25"
                         value={discount}
                       />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Input
                         type="text"
@@ -413,13 +853,13 @@ const addRow = () => {
                     <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
-                    <TableCell>-</TableCell>
+                    {/* <TableCell>-</TableCell> */}
                     <TableCell>-</TableCell>
                   </>
                 )}
               </TableRow>
             <TableRow>
-              <TableCell colSpan="7">
+              <TableCell colSpan="6">
                 <div className="items-center flex mt-4">
                   <Button className="cursor-pointer" onClick={addRow}>
                     <Plus className="w-4" />
@@ -467,7 +907,7 @@ const addRow = () => {
                   width,
                   sqFeet,
                   ratePerSqFeet,
-                  discount,
+                  // discount,
                   totalRate,
                 }}
               />

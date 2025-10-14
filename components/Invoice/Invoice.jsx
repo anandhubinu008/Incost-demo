@@ -63,7 +63,7 @@ const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
           <th className="border border-black p-2">WIDTH</th>
           <th className="border border-black p-2">SQ FEET</th>
           <th className="border border-black p-2">RATE PER SQ FEET</th>
-          <th className="border border-black p-2">DISCOUNT</th>
+          {/* <th className="border border-black p-2">DISCOUNT</th> */}
           <th className="border border-black p-2">TOTAL</th>
         </tr>
       </thead>
@@ -77,13 +77,13 @@ const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
             <td className="border border-black p-2">{item.width}</td>
             <td className="border border-black p-2">{item.sqFeet}</td>
             <td className="border border-black p-2">{item.ratePerSqFeet}</td>
-            <td className="border border-black p-2">{item.discount}</td>
+            {/* <td className="border border-black p-2">{item.discount}</td> */}
             <td className="border border-black p-2">{item.totalRate}</td>
           </tr>
         ))}
 
           <tr>
-            <td colSpan="8" className="border border-black p-2 text-right font-bold">
+            <td colSpan="7" className="border border-black p-2 text-right font-bold">
               Grand Total
             </td>
             <td className="border border-black p-2 font-bold">
