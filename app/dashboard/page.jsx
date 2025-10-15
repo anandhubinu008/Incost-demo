@@ -44,8 +44,10 @@ import Invoice from '@/components/Invoice/Invoice';
 
 const interiorWorks = [
   {
-    category: "Kitchen",
     id: 1,
+    category: "Kitchen",
+    note: "Includes cabinets, countertops, and tiling",
+    
     products: [
       {
         id: 1,
@@ -53,8 +55,8 @@ const interiorWorks = [
         length: 250,
         width: 83,
         sqfeet : 22,
-        ratePerSqFeet : 2233.74,
-        discount : 20,
+        ratePerSqFeet : 2234,
+        gst : 20,
       },
       {
         id: 2,
@@ -63,7 +65,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 190,
-        discount: 10,
+        gst: 10,
       },
       {
         id: 3,
@@ -72,7 +74,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 210,
-        discount: 12,
+        gst: 12,
       },
       {
         id: 4,
@@ -81,7 +83,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 150,
-        discount: 8,
+        gst: 8,
       },
       {
         id: 5,
@@ -90,7 +92,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 24,
         ratePerSqFeet: 650,
-        discount: 5,
+        gst: 5,
       },
       {
         id: 6,
@@ -99,13 +101,15 @@ const interiorWorks = [
         width: 120,
         sqfeet: 31,
         ratePerSqFeet: 110,
-        discount: 10,
+        gst: 10,
       },
     ],
   },
   {
-    category: "Work area",
     id: 2,
+    category: "Work area",
+    note: "Customized desks, shelves, and lighting",
+    
     products: [
       {
         id: 1,
@@ -113,8 +117,8 @@ const interiorWorks = [
         length: 250,
         width: 83,
         sqfeet : 22,
-        ratePerSqFeet : 2233.74,
-        discount : 20,
+        ratePerSqFeet : 2234,
+        gst : 20,
       },
       {
         id: 2,
@@ -123,7 +127,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 190,
-        discount: 10,
+        gst: 10,
       },
       {
         id: 3,
@@ -132,7 +136,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 210,
-        discount: 12,
+        gst: 12,
       },
       {
         id: 4,
@@ -141,7 +145,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 150,
-        discount: 8,
+        gst: 8,
       },
       {
         id: 5,
@@ -150,7 +154,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 24,
         ratePerSqFeet: 650,
-        discount: 5,
+        gst: 5,
       },
       {
         id: 6,
@@ -159,13 +163,15 @@ const interiorWorks = [
         width: 120,
         sqfeet: 31,
         ratePerSqFeet: 110,
-        discount: 10,
+        gst: 10,
       },
     ],
   },
   {
-    category: "Living",
     id: 3,
+    category: "Living",
+    note: "TV units, wall décor, and false ceiling",
+    
     products: [
       {
         id: 1,
@@ -173,8 +179,8 @@ const interiorWorks = [
         length: 250,
         width: 83,
         sqfeet : 22,
-        ratePerSqFeet : 2233.74,
-        discount : 20,
+        ratePerSqFeet : 2234,
+        gst : 20,
       },
       {
         id: 2,
@@ -183,7 +189,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 190,
-        discount: 10,
+        gst: 10,
       },
       {
         id: 3,
@@ -192,7 +198,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 210,
-        discount: 12,
+        gst: 12,
       },
       {
         id: 4,
@@ -201,7 +207,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 150,
-        discount: 8,
+        gst: 8,
       },
       {
         id: 5,
@@ -210,7 +216,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 24,
         ratePerSqFeet: 650,
-        discount: 5,
+        gst: 5,
       },
       {
         id: 6,
@@ -219,13 +225,15 @@ const interiorWorks = [
         width: 120,
         sqfeet: 31,
         ratePerSqFeet: 110,
-        discount: 10,
+        gst: 10,
       },
     ],
   },
   {
-    category: "Dining",
     id: 4,
+    category: "Dining",
+    note: "Dining table setup and lighting fixtures",
+
     products: [
       {
         id: 1,
@@ -233,8 +241,8 @@ const interiorWorks = [
         length: 250,
         width: 83,
         sqfeet : 22,
-        ratePerSqFeet : 2233.74,
-        discount : 20,
+        ratePerSqFeet : 2234,
+        gst : 20,
       },
       {
         id: 2,
@@ -243,7 +251,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 190,
-        discount: 10,
+        gst: 10,
       },
       {
         id: 3,
@@ -252,7 +260,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 210,
-        discount: 12,
+        gst: 12,
       },
       {
         id: 4,
@@ -261,7 +269,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 150,
-        discount: 8,
+        gst: 8,
       },
       {
         id: 5,
@@ -270,7 +278,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 24,
         ratePerSqFeet: 650,
-        discount: 5,
+        gst: 5,
       },
       {
         id: 6,
@@ -279,13 +287,15 @@ const interiorWorks = [
         width: 120,
         sqfeet: 31,
         ratePerSqFeet: 110,
-        discount: 10,
+        gst: 10,
       },
     ],
   },
   {
-    category: "Bed room",
     id: 5,
+    category: "Bedroom",
+    note: "Wardrobes, bed frames, and side tables",
+    
     products: [
       {
         id: 1,
@@ -293,8 +303,8 @@ const interiorWorks = [
         length: 250,
         width: 83,
         sqfeet : 22,
-        ratePerSqFeet : 2233.74,
-        discount : 20,
+        ratePerSqFeet : 2234,
+        gst : 20,
       },
       {
         id: 2,
@@ -303,7 +313,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 190,
-        discount: 10,
+        gst: 10,
       },
       {
         id: 3,
@@ -312,7 +322,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 210,
-        discount: 12,
+        gst: 12,
       },
       {
         id: 4,
@@ -321,7 +331,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 150,
-        discount: 8,
+        gst: 8,
       },
       {
         id: 5,
@@ -330,7 +340,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 24,
         ratePerSqFeet: 650,
-        discount: 5,
+        gst: 5,
       },
       {
         id: 6,
@@ -339,13 +349,15 @@ const interiorWorks = [
         width: 120,
         sqfeet: 31,
         ratePerSqFeet: 110,
-        discount: 10,
+        gst: 10,
       },
     ],
   },
   {
-    category: "Furniture",
     id: 6,
+    category: "Furniture",
+    note: "Modular furniture and storage units",
+    
     products: [
       {
         id: 1,
@@ -353,8 +365,8 @@ const interiorWorks = [
         length: 250,
         width: 83,
         sqfeet : 22,
-        ratePerSqFeet : 2233.74,
-        discount : 20,
+        ratePerSqFeet : 2234,
+        gst : 20,
       },
       {
         id: 2,
@@ -363,7 +375,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 190,
-        discount: 10,
+        gst: 10,
       },
       {
         id: 3,
@@ -372,7 +384,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 210,
-        discount: 12,
+        gst: 12,
       },
       {
         id: 4,
@@ -381,7 +393,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 150,
-        discount: 8,
+        gst: 8,
       },
       {
         id: 5,
@@ -390,7 +402,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 24,
         ratePerSqFeet: 650,
-        discount: 5,
+        gst: 5,
       },
       {
         id: 6,
@@ -399,73 +411,15 @@ const interiorWorks = [
         width: 120,
         sqfeet: 31,
         ratePerSqFeet: 110,
-        discount: 10,
+        gst: 10,
       },
     ],
   },
   {
-    category: "Bathroom",
     id: 7,
-      products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2233.74,
-        discount : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        discount: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        discount: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        discount: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        discount: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        discount: 10,
-      },
-    ],
-  },
-  {
-    category: "Ceiling work",
-    id: 8,
+    category: "Bathroom",
+    note: "Vanity units, storage, and partitions",
+    
     products: [
       {
         id: 1,
@@ -473,8 +427,8 @@ const interiorWorks = [
         length: 250,
         width: 83,
         sqfeet : 22,
-        ratePerSqFeet : 2233.74,
-        discount : 20,
+        ratePerSqFeet : 2234,
+        gst : 20,
       },
       {
         id: 2,
@@ -483,7 +437,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 190,
-        discount: 10,
+        gst: 10,
       },
       {
         id: 3,
@@ -492,7 +446,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 210,
-        discount: 12,
+        gst: 12,
       },
       {
         id: 4,
@@ -501,7 +455,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 32,
         ratePerSqFeet: 150,
-        discount: 8,
+        gst: 8,
       },
       {
         id: 5,
@@ -510,7 +464,7 @@ const interiorWorks = [
         width: 122,
         sqfeet: 24,
         ratePerSqFeet: 650,
-        discount: 5,
+        gst: 5,
       },
       {
         id: 6,
@@ -519,7 +473,69 @@ const interiorWorks = [
         width: 120,
         sqfeet: 31,
         ratePerSqFeet: 110,
-        discount: 10,
+        gst: 10,
+      },
+    ],
+  },
+  {
+    id: 8,
+    category: "Ceiling work",
+    note: "False ceiling and LED lighting designs",
+    
+    products: [
+      {
+        id: 1,
+        meterial : "Plywood",
+        length: 250,
+        width: 83,
+        sqfeet : 22,
+        ratePerSqFeet : 2234,
+        gst : 20,
+      },
+      {
+        id: 2,
+        meterial : "WPC",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 190,
+        gst: 10,
+      },
+      {
+        id: 3,
+        meterial : "HDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 210,
+        gst: 12,
+      },
+      {
+        id: 4,
+        meterial : "MDF",
+        length: 244,
+        width: 122,
+        sqfeet: 32,
+        ratePerSqFeet: 150,
+        gst: 8,
+      },
+      {
+        id: 5,
+        meterial : "St Gobain",
+        length: 183,
+        width: 122,
+        sqfeet: 24,
+        ratePerSqFeet: 650,
+        gst: 5,
+      },
+      {
+        id: 6,
+        meterial : "Gyproc",
+        length: 240,
+        width: 120,
+        sqfeet: 31,
+        ratePerSqFeet: 110,
+        gst: 10,
       },
     ],
   },
@@ -553,9 +569,10 @@ const page = () => {
   const [width, setWidth] = useState(null);
   const [sqFeet, setSqFeet] = useState(null);
   const [ratePerSqFeet, setRatePerSqFeet] = useState(null);
-  const [discount, setDiscount] = useState(null);
+  const [gst, setGST] = useState(null);
   const [totalRate, setTotalRate] = useState(null);
   const [grandTotal, setGrandTotal] = useState(null);
+  const [note, setNote] = useState(null);
 
   const [invoiceList, setInvoiceList] = useState([]);
 
@@ -565,12 +582,13 @@ const page = () => {
 
     setWorkCategory(null);
     setWorkMaterial(null);
+    setNote(null);
 
     setLength(null);
     setWidth(null);
     setSqft(null);
     setRatePerSqFeet(null);
-    setDiscount(null);
+    setGST(null);
     setTotalRate(null);
   }
 
@@ -580,10 +598,12 @@ const addRow = () => {
     const newRow = {
       workCategory: selectedCategory,
       workMaterial: selectedProduct,
+      note,
       length,
       width,
       sqFeet,
       ratePerSqFeet,
+      gst,
       totalRate
     };
 
@@ -627,13 +647,19 @@ const addRow = () => {
       const mat = selectedCategory.products.find((m) => m.id === id);
       setSelectedProduct(mat);
       console.log(mat)
+
+      const subtotal = mat.sqfeet * mat.ratePerSqFeet;
+      const gstRate = mat.gst || 0;
+      const gstAmount = (subtotal * gstRate) / 100;
+      const totalWithGST = subtotal + gstAmount;
+
       setWorkMaterial(mat.meterial)
       setLength(mat.length);
       setWidth(mat.width);
       setSqFeet(mat.sqfeet);
-      setRatePerSqFeet(mat.ratePerSqFeet)
-      // setDiscount(mat.discount)
-      setTotalRate(mat.sqfeet * mat.ratePerSqFeet)
+      setRatePerSqFeet(mat.ratePerSqFeet);
+      setGST(mat.gst);
+      setTotalRate(totalWithGST);
     }
   };
 
@@ -653,7 +679,7 @@ const addRow = () => {
               <TableHead>WIDTH</TableHead>
               <TableHead>SQ FEET</TableHead>
               <TableHead>RATE PER SQ FEET</TableHead>
-              {/* <TableHead>DISCOUNT</TableHead> */}
+              <TableHead>GST</TableHead>
               <TableHead>TOTAL RATE</TableHead>
             </TableRow>
           </TableHeader>
@@ -664,7 +690,7 @@ const addRow = () => {
               <TableRow key={`row-${index}`}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>
-                <Select  value={row.workCategory?.id}>
+                <Select  value={row.workCategory?.id} >
                   <SelectTrigger className="w-[180px] bg-blue-100">
                     <SelectValue placeholder="Select a work" />
                   </SelectTrigger>
@@ -672,7 +698,11 @@ const addRow = () => {
                     <SelectGroup>
                       <SelectLabel>Works</SelectLabel>
                         <SelectItem Select value={row.workCategory?.id}>
-                          {row.workCategory?.category}
+                          {/* {row.workCategory?.category} */}
+                          <div className="flex flex-col items-start text-left">
+                            <span>{row.workCategory?.category}</span>
+                            <span className="text-xs text-gray-500">{row.workCategory?.note}</span>
+                          </div>
                         </SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -728,15 +758,12 @@ const addRow = () => {
                       value={row.ratePerSqFeet}
                     />
                   </TableCell>
-                  {/* <TableCell>
+                  <TableCell>
                     <Input
                       type="text"
                       className="w-25"
-                      value={
-                        row.discount
-                      }
-                    />
-                  </TableCell> */}
+                      value={`${row.gst}%`}                    />
+                  </TableCell>
                   <TableCell>
                     <Input
                       type="text"
@@ -753,7 +780,7 @@ const addRow = () => {
                   <TableCell>-</TableCell>
                   <TableCell>-</TableCell>
                   <TableCell>-</TableCell>
-                  {/* <TableCell>-</TableCell> */}
+                  <TableCell>-</TableCell>
                   <TableCell>-</TableCell>
                 </>
               )}
@@ -763,7 +790,7 @@ const addRow = () => {
                 <TableCell>{invoiceList.length + 1}</TableCell>
                 <TableCell>
                   <Select value={selectedCategory?.id} onValueChange={handleCategoryChange}>
-                    <SelectTrigger className="w-[180px] bg-blue-100">
+                    <SelectTrigger className="w-[190px] bg-blue-100">
                       <SelectValue placeholder="Select a work" />
                     </SelectTrigger>
                     <SelectContent>
@@ -771,7 +798,10 @@ const addRow = () => {
                         <SelectLabel>Works</SelectLabel>
                         {interiorWorks.map((work, index) => (
                           <SelectItem key={work.id} value={work.id}>
-                            {work.category}
+                            <div className="flex flex-col items-start text-left">
+                              <span>{work.category}</span>
+                              <span className="text-xs text-gray-500">{work.note}</span>
+                            </div>
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -830,13 +860,13 @@ const addRow = () => {
                         value={ratePerSqFeet}
                       />
                     </TableCell>
-                    {/* <TableCell>
+                    <TableCell>
                       <Input
                         type="text"
                         className="w-25"
-                        value={discount}
+                      value={`${gst} %`}
                       />
-                    </TableCell> */}
+                    </TableCell>
                     <TableCell>
                       <Input
                         type="text"
@@ -853,13 +883,13 @@ const addRow = () => {
                     <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
-                    {/* <TableCell>-</TableCell> */}
+                    <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
                   </>
                 )}
               </TableRow>
             <TableRow>
-              <TableCell colSpan="6">
+              <TableCell colSpan="7">
                 <div className="items-center flex mt-4">
                   <Button className="cursor-pointer" onClick={addRow}>
                     <Plus className="w-4" />
@@ -887,7 +917,7 @@ const addRow = () => {
                 width,
                 sqFeet,
                 ratePerSqFeet,
-                discount,
+                gst,
                 totalRate,
               }}
             />
@@ -902,19 +932,20 @@ const addRow = () => {
                 grandTotal={grandTotal}
                 draftRow={{
                   workCategory,
+                  note,
                   workMaterial,
                   length,
                   width,
                   sqFeet,
                   ratePerSqFeet,
-                  // discount,
+                  gst,
                   totalRate,
                 }}
               />
             </div>
 
             <div className="flex justify-end gap-2 p-4 border-t">
-              <Button onClick={handlePrint}>Print</Button>
+              <Button className="cursor-pointer" onClick={handlePrint}>Print</Button>
               <Button variant="secondary" onClick={() => setShowPdf(false)}>Close</Button>
             </div>
           </div>

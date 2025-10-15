@@ -63,7 +63,7 @@ const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
           <th className="border border-black p-2">WIDTH</th>
           <th className="border border-black p-2">SQ FEET</th>
           <th className="border border-black p-2">RATE PER SQ FEET</th>
-          {/* <th className="border border-black p-2">DISCOUNT</th> */}
+          <th className="border border-black p-2">GST</th>
           <th className="border border-black p-2">TOTAL</th>
         </tr>
       </thead>
@@ -71,19 +71,26 @@ const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
         {fullList.map((item, index) => (
           <tr key={index} className={index === invoiceList.length ? "bg-yellow-50" : ""}>
             <td className="border border-black p-2">{index + 1}</td>
-            <td className="border border-black p-2">{item.workCategory?.category || item.workCategory}</td>
+            <td className="border border-black p-2">
+              <div className="flex flex-col">
+                <span>{item.workCategory?.category || item.workCategory}</span>
+                <span className="text-xs text-gray-500">
+                  { item.workCategory?.note || item.note || 'No note available'}
+                </span>
+              </div>
+            </td>
             <td className="border border-black p-2">{item.workMaterial?.meterial || item.workMaterial}</td>
             <td className="border border-black p-2">{item.length}</td>
             <td className="border border-black p-2">{item.width}</td>
             <td className="border border-black p-2">{item.sqFeet}</td>
             <td className="border border-black p-2">{item.ratePerSqFeet}</td>
-            {/* <td className="border border-black p-2">{item.discount}</td> */}
+            <td className="border border-black p-2">{item.gst}%</td>
             <td className="border border-black p-2">{item.totalRate}</td>
           </tr>
         ))}
 
           <tr>
-            <td colSpan="7" className="border border-black p-2 text-right font-bold">
+            <td colSpan="8" className="border border-black p-2 text-right font-bold">
               Grand Total
             </td>
             <td className="border border-black p-2 font-bold">
