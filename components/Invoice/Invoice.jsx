@@ -32,11 +32,11 @@ const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
           </p>
         </div>
         <div className="text-right">
-          <img
+          {/* <img
             src="https://via.placeholder.com/120x60?text=LOGO"
             alt="Logo"
             className="ml-auto mb-2"
-          />
+          /> */}
           <p>
             <b>D2R INTERIORS</b> <br />
             20/473A, Veluthadath Building <br />

@@ -638,6 +638,7 @@ const addRow = () => {
     const cat = interiorWorks.find((c) => c.id === id);
     if (cat) {
       setSelectedCategory(cat);
+      setNote(cat.note);
     }
     setWorkCategory(cat.category);
   };
