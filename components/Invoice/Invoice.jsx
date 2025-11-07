@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { useEffect, useRef } from "react";
 
 
-const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
+const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow }) => {
 
   const fullList = [...invoiceList];
 
@@ -63,7 +63,6 @@ const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
           <th className="border border-black p-2">WIDTH</th>
           <th className="border border-black p-2">SQ FEET</th>
           <th className="border border-black p-2">RATE PER SQ FEET</th>
-          <th className="border border-black p-2">GST</th>
           <th className="border border-black p-2">TOTAL</th>
         </tr>
       </thead>
@@ -84,23 +83,29 @@ const Invoice = ({ invoiceList = [], grandTotal = 0, draftRow }) => {
             <td className="border border-black p-2">{item.width}</td>
             <td className="border border-black p-2">{item.sqFeet}</td>
             <td className="border border-black p-2">{item.ratePerSqFeet}</td>
-            <td className="border border-black p-2">{item.gst}%</td>
             <td className="border border-black p-2">{item.totalRate}</td>
           </tr>
         ))}
+        
+          <tr>
+            <td colSpan="7" className="border border-black p-2 text-right font-bold">
+              GST(%)
+            </td>
+            <td className="border border-black p-2 font-bold">
+              {gst}
+            </td>
+          </tr>
 
           <tr>
-            <td colSpan="8" className="border border-black p-2 text-right font-bold">
+            <td colSpan="7" className="border border-black p-2 text-right font-bold">
               Grand Total
             </td>
             <td className="border border-black p-2 font-bold">
-              {fullList.reduce((sum, row) => sum + (row.totalRate || 0), 0).toFixed(2)}
+                {grandTotal.toFixed(2)}
             </td>
           </tr>
         </tbody>
     </table>
-
-      {/* <Button onClick={handlePrint}>Print</Button> */}
     </div>
   );
 };
