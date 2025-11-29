@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 
-const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer }) => {
+const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer, estimate }) => {
 
   const fullList = invoiceList.filter(item => item.totalRate > 0);
 
@@ -46,10 +46,10 @@ const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer }) => {
       </div>
       <div className="mb-4">
         <p>
-          <b>Estimate No:</b> D2R.23673 <br />
-            <b>Date:</b> {new Date().toLocaleDateString("en-GB")} <br />
-          <b>Sales Team Leader:</b> REJOY ANTONY C <br />
-          <b>Mob:</b> +91 6282276583 <br />
+          <b>Date:</b> {new Date().toLocaleDateString("en-GB")} <br />
+          <b>Estimate No:</b> {estimate.estimateNumber} <br />
+          <b>Sales Team Leader:</b> {estimate.name}<br />
+          <b>Mob:</b> {estimate.mob} <br />
         </p>
       </div>
      <table className="w-full border-collapse border border-black text-center text-xs">
@@ -57,8 +57,8 @@ const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer }) => {
         <tr className="bg-red-700 text-white">
           <th className="border border-black p-2">SR.NO</th>
           <th className="border border-black p-2">WORK</th>
-          <th className="border border-black p-2">LENGTH</th>
-          <th className="border border-black p-2">HEIGHT</th>
+          <th className="border border-black p-2">LENGTH (cm)</th>
+          <th className="border border-black p-2">HEIGHT (cm)</th>
           <th className="border border-black p-2">SQ FEET</th>
           <th className="border border-black p-2">RATE PER SQ FEET</th>
           <th className="border border-black p-2">TOTAL</th>
