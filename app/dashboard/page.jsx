@@ -7,6 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Check, ChevronsUpDown, } from "lucide-react";
 import { Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useReactToPrint } from 'react-to-print';
+import Invoice from '@/components/Invoice/Invoice';
 
 import {
   Select,
@@ -38,517 +41,40 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-import { Button } from '@/components/ui/button';
-import { useReactToPrint } from 'react-to-print';
-import Invoice from '@/components/Invoice/Invoice';
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+
+import {
+  Command,
+  CommandInput,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+} from "@/components/ui/command";
 
 const interiorWorks = [
-  {
-    id: 1,
-    category: "Kitchen",
-    note: "Includes cabinets, countertops, and tiling",
-    
-    products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2234,
-        gst : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        gst: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        gst: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        gst: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        gst: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        gst: 10,
-      },
-    ],
-  },
-  {
-    id: 2,
-    category: "Work area",
-    note: "Customized desks, shelves, and lighting",
-    
-    products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2234,
-        gst : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        gst: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        gst: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        gst: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        gst: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        gst: 10,
-      },
-    ],
-  },
-  {
-    id: 3,
-    category: "Living",
-    note: "TV units, wall décor, and false ceiling",
-    
-    products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2234,
-        gst : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        gst: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        gst: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        gst: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        gst: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        gst: 10,
-      },
-    ],
-  },
-  {
-    id: 4,
-    category: "Dining",
-    note: "Dining table setup and lighting fixtures",
-
-    products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2234,
-        gst : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        gst: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        gst: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        gst: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        gst: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        gst: 10,
-      },
-    ],
-  },
-  {
-    id: 5,
-    category: "Bedroom",
-    note: "Wardrobes, bed frames, and side tables",
-    
-    products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2234,
-        gst : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        gst: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        gst: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        gst: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        gst: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        gst: 10,
-      },
-    ],
-  },
-  {
-    id: 6,
-    category: "Furniture",
-    note: "Modular furniture and storage units",
-    
-    products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2234,
-        gst : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        gst: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        gst: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        gst: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        gst: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        gst: 10,
-      },
-    ],
-  },
-  {
-    id: 7,
-    category: "Bathroom",
-    note: "Vanity units, storage, and partitions",
-    
-    products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2234,
-        gst : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        gst: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        gst: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        gst: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        gst: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        gst: 10,
-      },
-    ],
-  },
-  {
-    id: 8,
-    category: "Ceiling work",
-    note: "False ceiling and LED lighting designs",
-    
-    products: [
-      {
-        id: 1,
-        meterial : "Plywood",
-        length: 250,
-        width: 83,
-        sqfeet : 22,
-        ratePerSqFeet : 2234,
-        gst : 20,
-      },
-      {
-        id: 2,
-        meterial : "WPC",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 190,
-        gst: 10,
-      },
-      {
-        id: 3,
-        meterial : "HDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 210,
-        gst: 12,
-      },
-      {
-        id: 4,
-        meterial : "MDF",
-        length: 244,
-        width: 122,
-        sqfeet: 32,
-        ratePerSqFeet: 150,
-        gst: 8,
-      },
-      {
-        id: 5,
-        meterial : "St Gobain",
-        length: 183,
-        width: 122,
-        sqfeet: 24,
-        ratePerSqFeet: 650,
-        gst: 5,
-      },
-      {
-        id: 6,
-        meterial : "Gyproc",
-        length: 240,
-        width: 120,
-        sqfeet: 31,
-        ratePerSqFeet: 110,
-        gst: 10,
-      },
-    ],
-  },
-]
+  { id: 1, category: "Kitchen" },
+  { id: 2, category: "Work area" },
+  { id: 3, category: "Living" },
+  { id: 4, category: "Dining" },
+  { id: 5, category: "Bedroom" },
+  { id: 6, category: "Furniture" },
+  { id: 7, category: "Bathroom" },
+  { id: 8, category: "Ceiling work" },
+];
 
 const page = () => {
 
-  const pdfRef = useRef();
-
-  const handlePrint = useReactToPrint({
-    documentTitle: "Title",
+  const pdfRef = useRef(null);    
+const handlePrint = useReactToPrint({
     contentRef: pdfRef,
+    documentTitle: `Invoice`,
+    onAfterPrint: () => console.log('Printing completed'),
   });
+
    
   const [sqft, setSqft] = useState(100);
   const [quantity, setQuantity] = useState(1);
@@ -561,113 +87,208 @@ const page = () => {
   const categoryObj = floorObj?.categories.find((c) => c.name === selectedCategory);
   const workObj = categoryObj?.works.find((w) => w.name === selectedWork);
 
+  const [customerName, setCustomerName] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+
+
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [workCategory, setWorkCategory] = useState(null);
   const [workMaterial, setWorkMaterial] = useState(null);
-  const [length, setLength] = useState(null);
-  const [width, setWidth] = useState(null);
-  const [sqFeet, setSqFeet] = useState(null);
-  const [ratePerSqFeet, setRatePerSqFeet] = useState(null);
-  const [gst, setGST] = useState(null);
+  const [length, setLength] = useState("");
+  const [height, setHeight] = useState("");
+  const [sqFeet, setSqFeet] = useState("");
+  const [ratePerSqFeet, setRatePerSqFeet] = useState("");
+  const [gst, setGST] = useState(18);
   const [totalRate, setTotalRate] = useState(null);
   const [grandTotal, setGrandTotal] = useState(null);
-  const [note, setNote] = useState(null);
 
   const [invoiceList, setInvoiceList] = useState([]);
 
+
   const reset = () => {
-    setSelectedCategory(null);
-    setSelectedProduct(null);
+    setSelectedCategory("");
+    setWorkMaterial("");
+    setLength("");
+    setHeight("");
+    setSqFeet("");
+    setRatePerSqFeet("");
+    setTotalRate("");
+  };
 
-    setWorkCategory(null);
-    setWorkMaterial(null);
-    setNote(null);
+  const addRow = () => {
+    if (selectedCategory && length && height && sqFeet && ratePerSqFeet && totalRate ) {
+      const newRow = {
+        workCategory: selectedCategory,
+        workMaterial,
+        length,
+        height,
+        sqFeet,
+        ratePerSqFeet,
+        totalRate
+      };
+      
+      setInvoiceList(prev => [...prev, newRow]);
+      reset();
+    }
+  };
 
-    setLength(null);
-    setWidth(null);
-    setSqft(null);
-    setRatePerSqFeet(null);
-    setGST(null);
-    setTotalRate(null);
-  }
 
-const addRow = () => {
+  const updateRow = (index, field, value) => {
+    setInvoiceList(prev => {
+      return prev.map((row, i) => {
+        if (i !== index) return row;
 
-  if (selectedCategory && selectedProduct && length && width && sqFeet && ratePerSqFeet && totalRate ) {
-    const newRow = {
-      workCategory: selectedCategory,
-      workMaterial: selectedProduct,
-      note,
-      length,
-      width,
-      sqFeet,
-      ratePerSqFeet,
-      gst,
-      totalRate
-    };
+        const updatedRow = { ...row, [field]: value };
 
-    console.log("Adding Row:", newRow);
-    setInvoiceList((prev) => [...prev, newRow]);
+        const L = parseFloat(updatedRow.length) || 0;
+        const H = parseFloat(updatedRow.height) || 0;
+        const rate = parseFloat(updatedRow.ratePerSqFeet) || 0;
 
-    reset(); 
-  }
+        const area = (L * H) / 144;
+        const rowTotal = area * rate;
 
-};
+        updatedRow.sqFeet = area.toFixed(2);
+        updatedRow.totalRate = rowTotal.toFixed(2);
 
- 
+        return updatedRow;
+      });
+    });
+  };
 
-//  useEffect(() => {
-//   invoiceList
-//  }, [totalRate])
+
+  const handleCategoryChange = (id) => {
+    const cat = interiorWorks.find((c) => c.id === Number(id));
+    setSelectedCategory(cat);
+    setWorkCategory(cat?.category || "");
+  };
+
+  
+  // useEffect(() => {
+  //   const L = parseFloat(length) || 0;
+  //   const H = parseFloat(height) || 0;
+  //   const rate = parseFloat(ratePerSqFeet) || 0;
+
+  //   const area = (L * H) / 144;
+  //   const rowAmount = area * rate;
+
+  //   const subtotal = invoiceList.reduce((sum, row) => {
+  //     return sum + parseFloat(row.totalRate || 0);
+  //   }, 0) + rowAmount;
+
+  //   const gstAmount = (subtotal * gst) / 100;
+
+  //   setSqFeet(area.toFixed(2));
+  //   setTotalRate(rowAmount.toFixed(2));
+  //   setGrandTotal((subtotal + gstAmount).toFixed(2));
+
+  // }, [length, height, ratePerSqFeet, invoiceList, gst]);
 
 
   useEffect(() => {
-    const draftRowTotal = totalRate || 0;
+    const rowsSubtotal = invoiceList.reduce((sum, row) => {
+      return sum + (parseFloat(row.totalRate) || 0);
+    }, 0);
 
-    const invoiceListTotal = invoiceList.reduce((sum, row) => sum + (row.totalRate || 0), 0);
+    const L = parseFloat(length) || 0;
+    const H = parseFloat(height) || 0;
+    const rate = parseFloat(ratePerSqFeet) || 0;
 
-    const total = invoiceListTotal + draftRowTotal;
+    const area = (L * H) / 144;
+    const rowAmount = area * rate;
 
-    setGrandTotal(total);
-  }, [invoiceList, totalRate]);
+    setSqFeet(area.toFixed(2));
+    setTotalRate(rowAmount.toFixed(2));
+
+    const subtotal = rowsSubtotal + rowAmount;
+
+    const gstAmount = (subtotal * gst) / 100;
+
+    setGrandTotal((subtotal + gstAmount).toFixed(2));
+  }, [length, height, ratePerSqFeet, invoiceList, gst]);
 
 
-  
-  const handleCategoryChange = (id) => {
-    const cat = interiorWorks.find((c) => c.id === id);
-    if (cat) {
-      setSelectedCategory(cat);
-      setNote(cat.note);
-    }
-    setWorkCategory(cat.category);
+  const handleLengthChange = (len) =>{
+    setLength(len);
   };
 
-  const handleMaterialChange = (id) => {
-    if (selectedCategory && selectedCategory.products) {
-      const mat = selectedCategory.products.find((m) => m.id === id);
-      setSelectedProduct(mat);
-      console.log(mat)
+  const handleHeightChange = (wd) =>{
+    setHeight(wd);
+  }
 
-      const subtotal = mat.sqfeet * mat.ratePerSqFeet;
-      const gstRate = mat.gst || 0;
-      const gstAmount = (subtotal * gstRate) / 100;
-      const totalWithGST = subtotal + gstAmount;
+  const handleGSTChange = (val) =>{
+    setGST(val);
+  }
 
-      setWorkMaterial(mat.meterial)
-      setLength(mat.length);
-      setWidth(mat.width);
-      setSqFeet(mat.sqfeet);
-      setRatePerSqFeet(mat.ratePerSqFeet);
-      setGST(mat.gst);
-      setTotalRate(totalWithGST);
+  const isFormValid = () => {
+    return (
+      selectedCategory &&
+      length &&
+      height &&
+      sqFeet &&
+      ratePerSqFeet &&
+      totalRate &&
+      grandTotal
+    );
+  };
+
+  const handleInvoiceOpen = () => {
+    if (customerName && customerPhone && grandTotal != 0) {
+      setShowPdf(true);
+    } else {
+      alert("Please fill all required fields before generating the invoice.");
     }
+  };
+
+  const capitalizeFirst = (text) => {
+    if (!text) return "";
+    return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
   return (
     <div className="px-5 py-5 mt-2 bg-cover relative right-0 top-0 h-[90dvh] rounded-2xl lg:border-1">
-
       <h1 className="text-2xl font-bold">Dashboard</h1>
+      
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-5 mb-10">
+        <div>
+          <Label className="mb-2">Customer Name<span className='text-red-500'>*</span></Label>
+          <Input
+            type="text" 
+            value={customerName}
+            onChange={(e) => setCustomerName(capitalizeFirst(e.target.value))}
+            className="dark:border-#FFF-600"
+          />
+        </div>
+        <div>
+          <Label className="mb-2">Address</Label>
+          <Input
+            type="text"  
+            value={customerAddress}
+            onChange={(e) => setCustomerAddress(capitalizeFirst(e.target.value))}
+            className="dark:border-#FFF-600"
+          />
+        </div>
+        <div>
+          <Label className="mb-2">Phone Number<span className='text-red-500'>*</span></Label>
+          <Input 
+            type="text" 
+            value={customerPhone}
+            onChange={(e) => setCustomerPhone(e.target.value)}
+            className="dark:border-#FFF-600"
+          />
+        </div>
+        <div>
+          <Label className="mb-2">Email</Label>
+          <Input
+            type="email"  
+            value={customerEmail}
+            onChange={(e) => setCustomerEmail(e.target.value)}
+            className="dark:border-#FFF-600"
+          />
+        </div>
+      </div>
 
       <div className="mt-5">
         <Table>
@@ -675,123 +296,97 @@ const addRow = () => {
             <TableRow>
               <TableHead>SR.</TableHead>
               <TableHead>WORKS</TableHead>
-              <TableHead>MATERIAL</TableHead>
-              <TableHead>LENGTH</TableHead>
-              <TableHead>WIDTH</TableHead>
+              <TableHead>LENGTH (inches)<span className='text-red-500'>*</span></TableHead>
+              <TableHead>HEIGHT (inches)<span className='text-red-500'>*</span></TableHead>
               <TableHead>SQ FEET</TableHead>
-              <TableHead>RATE PER SQ FEET</TableHead>
-              <TableHead>GST</TableHead>
+              <TableHead>RATE PER SQ FEET <span className='text-red-500'>*</span></TableHead>
               <TableHead>TOTAL RATE</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {
-              invoiceList.length > 0 && 
-                invoiceList.map((row, index) => (
+              invoiceList.length > 0 && invoiceList.map((row, index) => (
               <TableRow key={`row-${index}`}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell>
-                <Select  value={row.workCategory?.id} >
-                  <SelectTrigger className="w-[180px] bg-blue-100">
-                    <SelectValue placeholder="Select a work" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Works</SelectLabel>
-                        <SelectItem Select value={row.workCategory?.id}>
-                          {/* {row.workCategory?.category} */}
-                          <div className="flex flex-col items-start text-left">
-                            <span>{row.workCategory?.category}</span>
-                            <span className="text-xs text-gray-500">{row.workCategory?.note}</span>
-                          </div>
-                        </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </TableCell>
-
-              {row.workMaterial ? (
-                <TableCell>
-                  <Select value={row.workMaterial.id}>
-                    <SelectTrigger className="w-[180px] bg-blue-100">
+                <TableCell>{index + 1}</TableCell>
+                <TableCell className="flex flex-col gap-2">
+                  <Select  value={row.workCategory?.id}>
+                    <SelectTrigger className="w-[240px] bg-blue-100 py-[20px] dark:border-#FFF-600">
                       <SelectValue placeholder="Select a work" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Materials</SelectLabel>
-                          <SelectItem key={index} value={row.workMaterial.id}>
-                            {row.workMaterial.meterial}
+                        <SelectLabel>Works</SelectLabel>
+                          <SelectItem Select value={row.workCategory?.id}>
+                            <div className="flex flex-col items-start text-left ">
+                              <span>{row.workCategory?.category}</span>
+                            </div>
                           </SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
+                  <Input value={row.workMaterial} readOnly className="bg-blue-100 w-[240px] dark:border-#FFF-600" />
                 </TableCell>
-              ) : (
-                <TableCell> - </TableCell>
-              )}
-              {row.workMaterial ? (
-                <>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={row.length}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={row.width}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={row.sqFeet}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={row.ratePerSqFeet}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={`${row.gst}%`}                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="text"
-                      className="w-25"
-                      value={
-                        row.totalRate
-                      }
-                    />
-                  </TableCell>
-                </>
-              ) : (
-                <>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                </>
-              )}
+                {row.workMaterial ? (
+                  <>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25 dark:border-#FFF-600"
+                        value={row.length}
+                        onChange={(e) => updateRow(index, "length", e.target.value)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25 dark:border-#FFF-600"
+                        value={row.height}
+                        onChange={(e) => updateRow(index, "height", e.target.value)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25 dark:border-#FFF-600"
+                        value={row.sqFeet}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25 dark:border-#FFF-600"
+                        value={row.ratePerSqFeet}
+                        onChange={(e) => updateRow(index, "ratePerSqFeet", e.target.value)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        className="w-25 dark:border-#FFF-600"
+                        value={
+                          row.totalRate
+                        }
+                      />
+                    </TableCell>
+                  </>
+                ) : (
+                  <>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                    <TableCell>-</TableCell>
+                  </>
+                )}
               </TableRow> ))
             }
+
+              {/* New row input fields */}
               <TableRow>
                 <TableCell>{invoiceList.length + 1}</TableCell>
-                <TableCell>
-                  <Select value={selectedCategory?.id} onValueChange={handleCategoryChange}>
-                    <SelectTrigger className="w-[190px] bg-blue-100">
+                <TableCell className="flex flex-col gap-2">
+                  <Select value={selectedCategory ? selectedCategory.id : ""} onValueChange={handleCategoryChange}>
+                    <SelectTrigger className="w-[240px] bg-blue-100 py-[20px] dark:border-#FFF-600">
                       <SelectValue placeholder="Select a work" />
                     </SelectTrigger>
                     <SelectContent>
@@ -801,77 +396,59 @@ const addRow = () => {
                           <SelectItem key={work.id} value={work.id}>
                             <div className="flex flex-col items-start text-left">
                               <span>{work.category}</span>
-                              <span className="text-xs text-gray-500">{work.note}</span>
                             </div>
                           </SelectItem>
                         ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                </TableCell>
 
-                {selectedCategory ? (
-                  <TableCell>
-                    <Select value={selectedProduct?.id} onValueChange={handleMaterialChange}>
-                      <SelectTrigger className="w-[180px] bg-blue-100">
-                        <SelectValue placeholder="Select a material" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Materials</SelectLabel>
-                          {selectedCategory.products.map((m, index) => (
-                            <SelectItem key={m.id} value={m.id}>
-                              {m.meterial}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
-                ) : (
-                  <TableCell> - </TableCell>
-                )}
-                {selectedProduct ? (
+                  {selectedCategory && (
+                    <Input
+                      className="bg-blue-100 w-[240px] dark:border-#FFF-600"
+                      placeholder="Enter material"
+                      value={workMaterial}
+                      onChange={e => setWorkMaterial(e.target.value)}
+                    />
+                  )}
+                </TableCell>
+                {workMaterial ? (
                   <>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25"
+                        className="w-25 dark:border-#FFF-600"
                         value={length}
+                        onChange={(e) => handleLengthChange(e.target.value)}
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25"
-                        value={width}
+                        className="w-25 dark:border-#FFF-600"
+                        value={height}
+                        onChange={(e) => handleHeightChange(e.target.value)}
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25"
+                        className="w-25 dark:border-#FFF-600"
                         value={sqFeet}
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25"
+                        className="w-25 dark:border-#FFF-600"
                         value={ratePerSqFeet}
+                        onChange={e => setRatePerSqFeet(e.target.value)}
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25"
-                      value={`${gst} %`}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="text"
-                        className="w-25"
+                        className="w-25 dark:border-#FFF-600"
                         value={
                           totalRate
                         }
@@ -885,73 +462,69 @@ const addRow = () => {
                     <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
-                    <TableCell>-</TableCell>
                   </>
                 )}
               </TableRow>
-            <TableRow>
-              <TableCell colSpan="7">
-                <div className="items-center flex mt-4">
-                  <Button className="cursor-pointer" onClick={addRow}>
-                    <Plus className="w-4" />
-                  </Button>
-                  <Button className="cursor-pointer ms-2" onClick={() => setShowPdf(!showPdf)}>Invoice</Button>
-                  <Button className="cursor-pointer ms-2" >Save</Button>
-                </div>
-              </TableCell>
-              <TableCell className="font-bold">TOTAL</TableCell>
-              {/* <TableCell className="font-bold">49895.83</TableCell> */}
-              <TableCell className="font-bold">{grandTotal?.toFixed(2)}</TableCell>
-            </TableRow>
+              <TableRow>
+                <TableCell colSpan="5"></TableCell>
+                <TableCell className="font-bold">GST (%)</TableCell>
+                <TableCell>
+                  <Input
+                    type="text"
+                    className="w-25 dark:border-#FFF-600"
+                    value={gst}
+                    onChange={(e) => handleGSTChange(e.target.value)}
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan="5">
+                  <div className="items-center flex mt-4">
+                    <Button className="cursor-pointer" onClick={addRow}>
+                      <Plus className="w-4" />
+                    </Button>
+                    <Button className="cursor-pointer ms-2" onClick={handleInvoiceOpen}>Invoice</Button>
+                    <Button className="cursor-pointer ms-2" disabled={!isFormValid()} >Save</Button>
+                  </div>
+                </TableCell>
+                <TableCell className="font-bold">TOTAL</TableCell>
+                <TableCell className="font-bold">{grandTotal}</TableCell>
+              </TableRow>
           </TableBody>
         </Table>
 
-        {/* <div className='mt-3'>
-          {showPdf && (
-            <Invoice
-              invoiceList={invoiceList}
-              grandTotal={grandTotal}
-              draftRow={{
-                workCategory,
-                workMaterial,
-                length,
-                width,
-                sqFeet,
-                ratePerSqFeet,
-                gst,
-                totalRate,
-              }}
-            />
-          )}
-        </div> */}
-       <Dialog open={showPdf} onOpenChange={setShowPdf}>
-        <DialogContent className="lg:max-w-[1200px] h-[90vh] rounded-lg overflow-y-auto"  hideClose >
-          <div className="w-full h-full flex flex-col">
-            <div className="flex-1 p-6" ref={pdfRef}>
-              <Invoice
-                invoiceList={invoiceList}
-                grandTotal={grandTotal}
-                draftRow={{
-                  workCategory,
-                  note,
-                  workMaterial,
-                  length,
-                  width,
-                  sqFeet,
-                  ratePerSqFeet,
-                  gst,
-                  totalRate,
-                }}
-              />
+        <Dialog open={showPdf} onOpenChange={setShowPdf}>
+          <DialogContent className="lg:max-w-[1200px] h-[90vh] rounded-lg overflow-y-auto"  hideClose >
+            <div className="w-full h-full flex flex-col" ref={ pdfRef}>
+              <div className="flex-1 p-6" >
+                <Invoice
+                  invoiceList={invoiceList}
+                  grandTotal={grandTotal}
+                  gst={gst}
+                  draftRow={{
+                    workCategory,
+                    workMaterial,
+                    length,
+                    height,
+                    sqFeet,
+                    ratePerSqFeet,
+                    totalRate,
+                  }}
+                  customer={{
+                    name: customerName,
+                    address: customerAddress,
+                    phone: customerPhone,
+                    email: customerEmail
+                  }}
+                />
+              </div>
+              <div className="flex justify-end gap-2 p-4 border-t">
+                <Button className="cursor-pointer" onClick={handlePrint}>Print</Button>
+                <Button className="cursor-pointer"  variant="secondary" onClick={() => setShowPdf(false)}>Close</Button>
+              </div>
             </div>
-
-            <div className="flex justify-end gap-2 p-4 border-t">
-              <Button className="cursor-pointer" onClick={handlePrint}>Print</Button>
-              <Button variant="secondary" onClick={() => setShowPdf(false)}>Close</Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
       
       </div>
     </div>
