@@ -296,8 +296,8 @@ const handlePrint = useReactToPrint({
             <TableRow>
               <TableHead>SR.</TableHead>
               <TableHead>WORKS</TableHead>
-              <TableHead>LENGTH (inches)<span className='text-red-500'>*</span></TableHead>
-              <TableHead>HEIGHT (inches)<span className='text-red-500'>*</span></TableHead>
+              <TableHead>LENGTH (cm)<span className='text-red-500'>*</span></TableHead>
+              <TableHead>HEIGHT (cm)<span className='text-red-500'>*</span></TableHead>
               <TableHead>SQ FEET</TableHead>
               <TableHead>RATE PER SQ FEET <span className='text-red-500'>*</span></TableHead>
               <TableHead>TOTAL RATE</TableHead>
