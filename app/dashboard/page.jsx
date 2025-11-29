@@ -69,7 +69,7 @@ const interiorWorks = [
 const page = () => {
 
   const pdfRef = useRef(null);    
-const handlePrint = useReactToPrint({
+  const handlePrint = useReactToPrint({
     contentRef: pdfRef,
     documentTitle: `Invoice`,
     onAfterPrint: () => console.log('Printing completed'),
@@ -92,6 +92,14 @@ const handlePrint = useReactToPrint({
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
 
+  const generateEstimateNo = () => {
+    const prefix = "D2R.";
+    const randomNum = Math.floor(10000 + Math.random() * 90000); 
+    return prefix + randomNum;
+  };
+  const [estimateNo, setEstimateNo] = useState(generateEstimateNo()); 
+  const [salesLeader, setSalesLeader] = useState("REJOY ANTONY C");
+  const [mobile, setMobile] = useState("+91 6282276583");
 
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -143,11 +151,11 @@ const handlePrint = useReactToPrint({
 
         const updatedRow = { ...row, [field]: value };
 
-        const L = parseFloat(updatedRow.length) || 0;
-        const H = parseFloat(updatedRow.height) || 0;
+        const L = (parseFloat(updatedRow.length) || 0) / 30.48;
+        const H = (parseFloat(updatedRow.height) || 0) / 30.48;
         const rate = parseFloat(updatedRow.ratePerSqFeet) || 0;
 
-        const area = (L * H) / 144;
+        const area = (L * H);
         const rowTotal = area * rate;
 
         updatedRow.sqFeet = area.toFixed(2);
@@ -166,37 +174,16 @@ const handlePrint = useReactToPrint({
   };
 
   
-  // useEffect(() => {
-  //   const L = parseFloat(length) || 0;
-  //   const H = parseFloat(height) || 0;
-  //   const rate = parseFloat(ratePerSqFeet) || 0;
-
-  //   const area = (L * H) / 144;
-  //   const rowAmount = area * rate;
-
-  //   const subtotal = invoiceList.reduce((sum, row) => {
-  //     return sum + parseFloat(row.totalRate || 0);
-  //   }, 0) + rowAmount;
-
-  //   const gstAmount = (subtotal * gst) / 100;
-
-  //   setSqFeet(area.toFixed(2));
-  //   setTotalRate(rowAmount.toFixed(2));
-  //   setGrandTotal((subtotal + gstAmount).toFixed(2));
-
-  // }, [length, height, ratePerSqFeet, invoiceList, gst]);
-
-
   useEffect(() => {
     const rowsSubtotal = invoiceList.reduce((sum, row) => {
       return sum + (parseFloat(row.totalRate) || 0);
     }, 0);
 
-    const L = parseFloat(length) || 0;
-    const H = parseFloat(height) || 0;
+    const L = (parseFloat(length) || 0) / 30.48;
+    const H = (parseFloat(height) || 0) / 30.48;
     const rate = parseFloat(ratePerSqFeet) || 0;
 
-    const area = (L * H) / 144;
+    const area = (L * H);
     const rowAmount = area * rate;
 
     setSqFeet(area.toFixed(2));
@@ -235,7 +222,7 @@ const handlePrint = useReactToPrint({
   };
 
   const handleInvoiceOpen = () => {
-    if (customerName && customerPhone && grandTotal != 0) {
+    if (customerName && customerPhone && estimateNo && salesLeader &&grandTotal != 0) {
       setShowPdf(true);
     } else {
       alert("Please fill all required fields before generating the invoice.");
@@ -249,44 +236,90 @@ const handlePrint = useReactToPrint({
 
   return (
     <div className="px-5 py-5 mt-2 bg-cover relative right-0 top-0 h-[90dvh] rounded-2xl lg:border-1">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-5 mb-10">
-        <div>
-          <Label className="mb-2">Customer Name<span className='text-red-500'>*</span></Label>
-          <Input
-            type="text" 
-            value={customerName}
-            onChange={(e) => setCustomerName(capitalizeFirst(e.target.value))}
-            className="dark:border-#FFF-600"
-          />
+      <h1 className="text-2xl font-bold mb-5">Dashboard</h1>
+
+      <div className='grid grid-cols-2 gap-10' >
+        <div className='mb-5'>
+          <h5><b>Customer Details</b></h5>
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mt-3">
+            <div>
+              <Label className="mb-2">Customer Name<span className='text-red-500'>*</span></Label>
+              <Input
+                type="text" 
+                value={customerName}
+                onChange={(e) => setCustomerName(capitalizeFirst(e.target.value))}
+                className="dark:border-#FFF-600"
+              />
+            </div>
+            <div>
+              <Label className="mb-2">Address</Label>
+              <Input
+                type="text"  
+                value={customerAddress}
+                onChange={(e) => setCustomerAddress(capitalizeFirst(e.target.value))}
+                className="dark:border-#FFF-600"
+              />
+            </div>
+            <div>
+              <Label className="mb-2">Phone Number<span className='text-red-500'>*</span></Label>
+              <Input 
+                type="text" 
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+                className="dark:border-#FFF-600"
+              />
+            </div>
+            <div>
+              <Label className="mb-2">Email</Label>
+              <Input
+                type="email"  
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                className="dark:border-#FFF-600"
+              />
+            </div>
+          </div>
         </div>
-        <div>
-          <Label className="mb-2">Address</Label>
-          <Input
-            type="text"  
-            value={customerAddress}
-            onChange={(e) => setCustomerAddress(capitalizeFirst(e.target.value))}
-            className="dark:border-#FFF-600"
-          />
-        </div>
-        <div>
-          <Label className="mb-2">Phone Number<span className='text-red-500'>*</span></Label>
-          <Input 
-            type="text" 
-            value={customerPhone}
-            onChange={(e) => setCustomerPhone(e.target.value)}
-            className="dark:border-#FFF-600"
-          />
-        </div>
-        <div>
-          <Label className="mb-2">Email</Label>
-          <Input
-            type="email"  
-            value={customerEmail}
-            onChange={(e) => setCustomerEmail(e.target.value)}
-            className="dark:border-#FFF-600"
-          />
+        <div className='mb-5'>
+          <h5><b>Estimate Details</b></h5>
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mt-3">
+            <div>
+              <Label className="mb-2">Estimate No<span className='text-red-500'>*</span></Label>
+              <Input
+                type="text" 
+                value={estimateNo}
+                onChange={(e) => setEstimateNo(e.target.value)}
+                className="dark:border-#FFF-600"
+              />
+            </div>
+            {/* <div>
+              <Label className="mb-2">Date</Label>
+              <Input
+                type="date"  
+                value={formattedDate}
+                onChange={(e) => setFormattedDate(e.target.value)}
+                className="dark:border-#FFF-600"
+              />
+            </div> */}
+            <div>
+              <Label className="mb-2">Sales Team Leader<span className='text-red-500'>*</span></Label>
+              <Input 
+                type="text" 
+                value={salesLeader}
+                onChange={(e) => setSalesLeader(e.target.value)}  
+                className="dark:border-#FFF-600"
+              />
+            </div>
+            <div>
+              <Label className="mb-2">Mobile</Label>
+              <Input
+                type="text"  
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}    
+                className="dark:border-#FFF-600"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -515,6 +548,12 @@ const handlePrint = useReactToPrint({
                     address: customerAddress,
                     phone: customerPhone,
                     email: customerEmail
+                  }}
+                  estimate={{
+                    estimateNumber: estimateNo,
+                    name: salesLeader,
+                    // date: formattedDate,
+                    mob: mobile
                   }}
                 />
               </div>
