@@ -563,12 +563,12 @@ const page = () => {
                 )}
               </TableRow>
               <TableRow>
-                <TableCell colSpan="5"></TableCell>
+                <TableCell colSpan="6"></TableCell>
                 <TableCell className="font-bold">SUB TOTAL</TableCell>
                 <TableCell className="font-bold">{subTotal}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell colSpan="4"></TableCell>
+                <TableCell colSpan="5"></TableCell>
                 <TableCell className="font-bold">GST(%)</TableCell>
                 <TableCell>
                   <Input
@@ -581,7 +581,7 @@ const page = () => {
                 <TableCell className="font-bold">{gstAmount}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell colSpan="5">
+                <TableCell colSpan="6">
                   <div className="items-center flex mt-4">
                     <Button className="cursor-pointer" onClick={addRow}>
                       <Plus className="w-4" />
