@@ -64,6 +64,7 @@ const interiorWorks = [
   { id: 6, category: "Furniture" },
   { id: 7, category: "Bathroom" },
   { id: 8, category: "Ceiling work" },
+  { id: 9, category: "Accessories" },
 ];
 
 const page = () => {
@@ -108,13 +109,17 @@ const page = () => {
   const [length, setLength] = useState("");
   const [height, setHeight] = useState("");
   const [sqFeet, setSqFeet] = useState("");
+  const [count, setCount] = useState("");
   const [ratePerSqFeet, setRatePerSqFeet] = useState("");
   const [gst, setGST] = useState(18);
+  const [subTotal, setSubTotal] = useState(0);
+  const [gstAmount, setGstAmount] = useState(0);
   const [totalRate, setTotalRate] = useState(null);
   const [grandTotal, setGrandTotal] = useState(null);
 
   const [invoiceList, setInvoiceList] = useState([]);
 
+  const isAccessory = selectedCategory?.category === "Accessories";
 
   const reset = () => {
     setSelectedCategory("");
@@ -122,48 +127,69 @@ const page = () => {
     setLength("");
     setHeight("");
     setSqFeet("");
+    setCount("");
     setRatePerSqFeet("");
     setTotalRate("");
   };
 
   const addRow = () => {
-    if (selectedCategory && length && height && sqFeet && ratePerSqFeet && totalRate ) {
-      const newRow = {
-        workCategory: selectedCategory,
-        workMaterial,
-        length,
-        height,
-        sqFeet,
-        ratePerSqFeet,
-        totalRate
-      };
-      
-      setInvoiceList(prev => [...prev, newRow]);
-      reset();
-    }
+    if (!selectedCategory || !ratePerSqFeet || !totalRate) return;
+
+    if (isAccessory && !count) return;
+    if (!isAccessory && (!length || !height)) return;
+
+    const newRow = {
+      workCategory: selectedCategory,
+      workMaterial,
+      count: isAccessory ? count : null,
+      length: isAccessory ? null : length,
+      height: isAccessory ? null : height,
+      sqFeet: isAccessory ? null : sqFeet,
+      ratePerSqFeet,
+      totalRate,
+    };
+
+    setInvoiceList(prev => [...prev, newRow]);
+    reset();
   };
 
 
   const updateRow = (index, field, value) => {
-    setInvoiceList(prev => {
-      return prev.map((row, i) => {
+    setInvoiceList(prev =>
+      prev.map((row, i) => {
         if (i !== index) return row;
 
         const updatedRow = { ...row, [field]: value };
+        const isAccessoryRow = updatedRow.workCategory?.category === "Accessories";
 
-        const L = (parseFloat(updatedRow.length) || 0) / 30.48;
-        const H = (parseFloat(updatedRow.height) || 0) / 30.48;
-        const rate = parseFloat(updatedRow.ratePerSqFeet) || 0;
+        let total = 0;
 
-        const area = (L * H);
-        const rowTotal = area * rate;
+        if (isAccessoryRow) {
+          // Accessories
+          const qty = parseFloat(updatedRow.count) || 0;
+          const rate = parseFloat(updatedRow.ratePerSqFeet) || 0;
 
-        updatedRow.sqFeet = area.toFixed(2);
-        updatedRow.totalRate = rowTotal.toFixed(2);
+          total = qty * rate;
 
+          updatedRow.sqFeet = null;
+          updatedRow.length = null;
+          updatedRow.height = null;
+        } else {
+          // Normal works
+          const L = (parseFloat(updatedRow.length) || 0) / 30.48;
+          const H = (parseFloat(updatedRow.height) || 0) / 30.48;
+          const rate = parseFloat(updatedRow.ratePerSqFeet) || 0;
+
+          const area = L * H;
+          total = area * rate;
+
+          updatedRow.sqFeet = area.toFixed(2);
+        }
+
+        updatedRow.totalRate = total.toFixed(2);
         return updatedRow;
-      });
-    });
+      })
+    );
   };
 
 
@@ -173,28 +199,43 @@ const page = () => {
     setWorkCategory(cat?.category || "");
   };
 
-  
+
   useEffect(() => {
     const rowsSubtotal = invoiceList.reduce((sum, row) => {
       return sum + (parseFloat(row.totalRate) || 0);
     }, 0);
 
-    const L = (parseFloat(length) || 0) / 30.48;
-    const H = (parseFloat(height) || 0) / 30.48;
-    const rate = parseFloat(ratePerSqFeet) || 0;
+    let rowAmount = 0;
+    let area = 0;
 
-    const area = (L * H);
-    const rowAmount = area * rate;
+    if (isAccessory) {
+      // Accessories calculation
+      const qty = parseFloat(count) || 0;
+      const rate = parseFloat(ratePerSqFeet) || 0;
 
-    setSqFeet(area.toFixed(2));
+      rowAmount = qty * rate;
+    } else {
+      // sq ft calculation
+      const L = (parseFloat(length) || 0) / 30.48;
+      const H = (parseFloat(height) || 0) / 30.48;
+      const rate = parseFloat(ratePerSqFeet) || 0;
+
+      area = L * H;
+      rowAmount = area * rate;
+
+      setSqFeet(area.toFixed(2));
+    }
+
     setTotalRate(rowAmount.toFixed(2));
 
-    const subtotal = rowsSubtotal + rowAmount;
+    const currentSubtotal = rowsSubtotal + rowAmount;
+    const calculatedGst = (currentSubtotal * gst) / 100;
 
-    const gstAmount = (subtotal * gst) / 100;
+    setSubTotal(currentSubtotal.toFixed(2));
+    setGstAmount(calculatedGst.toFixed(2));
+    setGrandTotal((currentSubtotal + calculatedGst).toFixed(2));
 
-    setGrandTotal((subtotal + gstAmount).toFixed(2));
-  }, [length, height, ratePerSqFeet, invoiceList, gst]);
+  }, [length, height, count, ratePerSqFeet, invoiceList, gst, gstAmount, isAccessory]);
 
 
   const handleLengthChange = (len) =>{
@@ -203,6 +244,10 @@ const page = () => {
 
   const handleHeightChange = (wd) =>{
     setHeight(wd);
+  }
+
+  const handleCountChange = (qty) =>{
+    setCount(qty);
   }
 
   const handleGSTChange = (val) =>{
@@ -332,7 +377,8 @@ const page = () => {
               <TableHead>LENGTH (cm)<span className='text-red-500'>*</span></TableHead>
               <TableHead>HEIGHT (cm)<span className='text-red-500'>*</span></TableHead>
               <TableHead>SQ FEET</TableHead>
-              <TableHead>RATE PER SQ FEET <span className='text-red-500'>*</span></TableHead>
+              <TableHead>QTY</TableHead>
+              <TableHead>RATE PER SQ FEET/QTY <span className='text-red-500'>*</span></TableHead>
               <TableHead>TOTAL RATE</TableHead>
             </TableRow>
           </TableHeader>
@@ -364,7 +410,7 @@ const page = () => {
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600"
+                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={row.length}
                         onChange={(e) => updateRow(index, "length", e.target.value)}
                       />
@@ -372,7 +418,7 @@ const page = () => {
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600"
+                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={row.height}
                         onChange={(e) => updateRow(index, "height", e.target.value)}
                       />
@@ -380,8 +426,15 @@ const page = () => {
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600"
+                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={row.sqFeet}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        value={row.count}
+                        onChange={(e) => updateRow(index, "count", e.target.value)}
+                        className=" w-25 dark:border-#FFF-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                       />
                     </TableCell>
                     <TableCell>
@@ -450,24 +503,35 @@ const page = () => {
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600"
+                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={length}
                         onChange={(e) => handleLengthChange(e.target.value)}
+                        disabled={isAccessory} 
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600"
+                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={height}
                         onChange={(e) => handleHeightChange(e.target.value)}
+                        disabled={isAccessory} 
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600"
+                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={sqFeet}
+                        disabled={isAccessory} 
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        className="w-25 dark:border-#FFF-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                        value={count}
+                        onChange={(e) => handleCountChange(e.target.value)}
+                        disabled={!isAccessory}   
                       />
                     </TableCell>
                     <TableCell>
@@ -500,7 +564,12 @@ const page = () => {
               </TableRow>
               <TableRow>
                 <TableCell colSpan="5"></TableCell>
-                <TableCell className="font-bold">GST (%)</TableCell>
+                <TableCell className="font-bold">SUB TOTAL</TableCell>
+                <TableCell className="font-bold">{subTotal}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan="4"></TableCell>
+                <TableCell className="font-bold">GST(%)</TableCell>
                 <TableCell>
                   <Input
                     type="text"
@@ -509,6 +578,7 @@ const page = () => {
                     onChange={(e) => handleGSTChange(e.target.value)}
                   />
                 </TableCell>
+                <TableCell className="font-bold">{gstAmount}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell colSpan="5">
@@ -532,14 +602,18 @@ const page = () => {
               <div className="flex-1 p-6" >
                 <Invoice
                   invoiceList={invoiceList}
-                  grandTotal={grandTotal}
+                  subTotal={subTotal}
                   gst={gst}
+                  gstAmount={gstAmount}
+                  grandTotal={grandTotal}
                   draftRow={{
                     workCategory,
                     workMaterial,
+                    isAccessory,
                     length,
                     height,
                     sqFeet,
+                    count,
                     ratePerSqFeet,
                     totalRate,
                   }}

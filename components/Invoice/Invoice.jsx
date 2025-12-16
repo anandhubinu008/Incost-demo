@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 
-const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer, estimate }) => {
+const Invoice = ({ invoiceList = [], subTotal, gst, gstAmount, grandTotal, draftRow, customer, estimate }) => {
 
   const fullList = invoiceList.filter(item => item.totalRate > 0);
 
@@ -60,7 +60,8 @@ const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer, estima
           <th className="border border-black p-2">LENGTH (cm)</th>
           <th className="border border-black p-2">HEIGHT (cm)</th>
           <th className="border border-black p-2">SQ FEET</th>
-          <th className="border border-black p-2">RATE PER SQ FEET</th>
+          <th className="border border-black p-2">QTY</th>
+          <th className="border border-black p-2">RATE PER SQ FEET/QTY</th>
           <th className="border border-black p-2">TOTAL</th>
         </tr>
       </thead>
@@ -74,25 +75,35 @@ const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer, estima
                 <span className="text-xs text-gray-500">{item.workMaterial?.meterial || item.workMaterial}</span>
               </div>
             </td>
-            <td className="border border-black p-2">{item.length}</td>
-            <td className="border border-black p-2">{item.height}</td>
-            <td className="border border-black p-2">{item.sqFeet}</td>
+            <td className="border border-black p-2">{item.length ? item.length : "-"}</td>
+            <td className="border border-black p-2">{item.height ? item.height : "-"}</td>
+            <td className="border border-black p-2">{item.sqFeet ? item.sqFeet : "-"}</td>
+            <td className="border border-black p-2">{item.count ? item.count : "-"}</td>
             <td className="border border-black p-2">{item.ratePerSqFeet}</td>
             <td className="border border-black p-2">{item.totalRate}</td>
           </tr>
         ))}
-        
+                
           <tr>
-            <td colSpan="6" className="border border-black p-2 text-right font-bold">
-              GST(%)
+            <td colSpan="7" className="border border-black p-2 text-right font-bold">
+              Total
             </td>
             <td className="border border-black p-2 font-bold">
-              {gst}
+              {subTotal}
+            </td>
+          </tr>
+        
+          <tr>
+            <td colSpan="7" className="border border-black p-2 text-right font-bold">
+              GST( {gst}%)
+            </td>
+            <td className="border border-black p-2 font-bold">
+              {gstAmount}
             </td>
           </tr>
 
           <tr>
-            <td colSpan="6" className="border border-black p-2 text-right font-bold">
+            <td colSpan="7" className="border border-black p-2 text-right font-bold">
               Grand Total
             </td>
             <td className="border border-black p-2 font-bold">
