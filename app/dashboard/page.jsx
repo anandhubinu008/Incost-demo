@@ -214,6 +214,7 @@ const page = () => {
       const rate = parseFloat(ratePerSqFeet) || 0;
 
       rowAmount = qty * rate;
+      setSqFeet("");
     } else {
       // sq ft calculation
       const L = (parseFloat(length) || 0) / 30.48;
@@ -280,7 +281,7 @@ const page = () => {
   };
 
   return (
-    <div className="px-5 py-5 mt-2 bg-cover relative right-0 top-0 h-[90dvh] rounded-2xl lg:border-1">
+    <div className="px-5 py-5 mt-2 bg-cover relative right-0 top-0 rounded-2xl lg:border-1">
       <h1 className="text-2xl font-bold mb-5">Dashboard</h1>
 
       <div className='grid grid-cols-2 gap-10' >
@@ -378,8 +379,8 @@ const page = () => {
               <TableHead>HEIGHT (cm)<span className='text-red-500'>*</span></TableHead>
               <TableHead>SQ FEET</TableHead>
               <TableHead>QTY</TableHead>
-              <TableHead>RATE PER SQ FEET/QTY <span className='text-red-500'>*</span></TableHead>
-              <TableHead>TOTAL RATE</TableHead>
+              <TableHead>UNIT PRICE <span className='text-red-500'>*</span></TableHead>
+              <TableHead>AMOUNT</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -413,6 +414,7 @@ const page = () => {
                         className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={row.length}
                         onChange={(e) => updateRow(index, "length", e.target.value)}
+                        disabled={!row.length} 
                       />
                     </TableCell>
                     <TableCell>
@@ -421,6 +423,7 @@ const page = () => {
                         className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={row.height}
                         onChange={(e) => updateRow(index, "height", e.target.value)}
+                        disabled={!row.height} 
                       />
                     </TableCell>
                     <TableCell>
@@ -428,6 +431,7 @@ const page = () => {
                         type="text"
                         className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                         value={row.sqFeet}
+                        disabled={!row.sqFeet} 
                       />
                     </TableCell>
                     <TableCell>
@@ -435,6 +439,7 @@ const page = () => {
                         value={row.count}
                         onChange={(e) => updateRow(index, "count", e.target.value)}
                         className=" w-25 dark:border-#FFF-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                        disabled={!row.count} 
                       />
                     </TableCell>
                     <TableCell>
@@ -503,7 +508,7 @@ const page = () => {
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:pointer-none"
                         value={length}
                         onChange={(e) => handleLengthChange(e.target.value)}
                         disabled={isAccessory} 
@@ -546,14 +551,13 @@ const page = () => {
                       <Input
                         type="text"
                         className="w-25 dark:border-#FFF-600"
-                        value={
-                          totalRate
-                        }
+                        value={totalRate}
                       />
                     </TableCell>
                   </>
                 ) : (
                   <>
+                    <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
                     <TableCell>-</TableCell>
@@ -631,7 +635,7 @@ const page = () => {
                   }}
                 />
               </div>
-              <div className="flex justify-end gap-2 p-4 border-t">
+              <div className="flex justify-end gap-2 p-4 border-t print:hidden">
                 <Button className="cursor-pointer" onClick={handlePrint}>Print</Button>
                 <Button className="cursor-pointer"  variant="secondary" onClick={() => setShowPdf(false)}>Close</Button>
               </div>
