@@ -17,7 +17,7 @@ const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer }) => {
   }
 
   return (
-    <div className="p-6text-sm text-black bg-white overflow-auto">
+    <div className="p-6 text-sm text-black bg-white overflow-auto">
       <div className="flex justify-between border-b-1 border-black pb-4 mb-4 bg-white ">
         <div>
           <p>
