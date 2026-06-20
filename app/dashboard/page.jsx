@@ -1,15 +1,18 @@
-"use client"
+"use client";
 
-import AppSidebar from '@/components/AppSidebar/AppSidebar'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import React, { Children, useEffect, useRef, useState } from 'react';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Check, ChevronsUpDown, } from "lucide-react";
-import { Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useReactToPrint } from 'react-to-print';
-import Invoice from '@/components/Invoice/Invoice';
+import AppSidebar from "@/components/AppSidebar/AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import React, { Children, useEffect, useRef, useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Check, ChevronsUpDown, Pencil, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useReactToPrint } from "react-to-print";
+import Invoice from "@/components/Invoice/Invoice";
+import { Save, X } from "lucide-react";
+import InvoiceDetailsDialog from "@/components/InvoiceDetailsDialog/InvoiceDetailsDialog";
+import { defaultFooterData } from "@/constants/invoiceFooterDefaults";
 
 import {
   Select,
@@ -19,7 +22,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 import {
   Table,
@@ -30,7 +33,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 import {
   Dialog,
@@ -54,6 +57,7 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
+import { InvoiceFooter } from "@/components/InvoiceDetailsDialog/InvoiceFooter";
 
 const interiorWorks = [
   { id: 1, category: "Kitchen" },
@@ -68,15 +72,13 @@ const interiorWorks = [
 ];
 
 const page = () => {
-
-  const pdfRef = useRef(null);    
+  const pdfRef = useRef(null);
   const handlePrint = useReactToPrint({
     contentRef: pdfRef,
     documentTitle: `Invoice`,
-    onAfterPrint: () => console.log('Printing completed'),
+    onAfterPrint: () => console.log("Printing completed"),
   });
 
-   
   const [sqft, setSqft] = useState(100);
   const [quantity, setQuantity] = useState(1);
   const [budget, setBudget] = useState("");
@@ -85,7 +87,9 @@ const page = () => {
   const [selectedFloor, setSelectedFloor] = useState(null);
 
   const floorObj = interiorWorks.find((f) => f.floor === selectedFloor);
-  const categoryObj = floorObj?.categories.find((c) => c.name === selectedCategory);
+  const categoryObj = floorObj?.categories.find(
+    (c) => c.name === selectedCategory,
+  );
   const workObj = categoryObj?.works.find((w) => w.name === selectedWork);
 
   const [customerName, setCustomerName] = useState("");
@@ -95,12 +99,12 @@ const page = () => {
 
   const generateEstimateNo = () => {
     const prefix = "D2R.";
-    const randomNum = Math.floor(10000 + Math.random() * 90000); 
+    const randomNum = Math.floor(10000 + Math.random() * 90000);
     return prefix + randomNum;
   };
-  const [estimateNo, setEstimateNo] = useState(generateEstimateNo()); 
-  const [salesLeader, setSalesLeader] = useState("REJOY ANTONY C");
-  const [mobile, setMobile] = useState("+91 6282276583");
+  const [estimateNo, setEstimateNo] = useState();
+  const [salesLeader, setSalesLeader] = useState("");
+  const [mobile, setMobile] = useState("");
 
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -116,6 +120,28 @@ const page = () => {
   const [gstAmount, setGstAmount] = useState(0);
   const [totalRate, setTotalRate] = useState(null);
   const [grandTotal, setGrandTotal] = useState(null);
+
+  const [showDetailsDialog, setShowDetailsDialog] = useState(false);
+  const [footerData, setFooterData] = useState(defaultFooterData);
+
+  // const handleInvoiceOpen = () => {
+  //   if (
+  //     customerName &&
+  //     customerPhone &&
+  //     estimateNo &&
+  //     salesLeader &&
+  //     grandTotal != 0
+  //   ) {
+  //     setShowDetailsDialog(true); // open footer-details editor first
+  //   } else {
+  //     alert("Please fill all required fields before generating the invoice.");
+  //   }
+  // };
+
+  const handleFooterSave = (updatedData) => {
+    setFooterData(updatedData);
+    setShowPdf(true); // now open the print preview
+  };
 
   const [invoiceList, setInvoiceList] = useState([]);
 
@@ -149,18 +175,18 @@ const page = () => {
       totalRate,
     };
 
-    setInvoiceList(prev => [...prev, newRow]);
+    setInvoiceList((prev) => [...prev, newRow]);
     reset();
   };
 
-
   const updateRow = (index, field, value) => {
-    setInvoiceList(prev =>
+    setInvoiceList((prev) =>
       prev.map((row, i) => {
         if (i !== index) return row;
 
         const updatedRow = { ...row, [field]: value };
-        const isAccessoryRow = updatedRow.workCategory?.category === "Accessories";
+        const isAccessoryRow =
+          updatedRow.workCategory?.category === "Accessories";
 
         let total = 0;
 
@@ -188,17 +214,15 @@ const page = () => {
 
         updatedRow.totalRate = total.toFixed(2);
         return updatedRow;
-      })
+      }),
     );
   };
-
 
   const handleCategoryChange = (id) => {
     const cat = interiorWorks.find((c) => c.id === Number(id));
     setSelectedCategory(cat);
     setWorkCategory(cat?.category || "");
   };
-
 
   useEffect(() => {
     const rowsSubtotal = invoiceList.reduce((sum, row) => {
@@ -235,25 +259,32 @@ const page = () => {
     setSubTotal(currentSubtotal.toFixed(2));
     setGstAmount(calculatedGst.toFixed(2));
     setGrandTotal((currentSubtotal + calculatedGst).toFixed(2));
+  }, [
+    length,
+    height,
+    count,
+    ratePerSqFeet,
+    invoiceList,
+    gst,
+    gstAmount,
+    isAccessory,
+  ]);
 
-  }, [length, height, count, ratePerSqFeet, invoiceList, gst, gstAmount, isAccessory]);
-
-
-  const handleLengthChange = (len) =>{
+  const handleLengthChange = (len) => {
     setLength(len);
   };
 
-  const handleHeightChange = (wd) =>{
+  const handleHeightChange = (wd) => {
     setHeight(wd);
-  }
+  };
 
-  const handleCountChange = (qty) =>{
+  const handleCountChange = (qty) => {
     setCount(qty);
-  }
+  };
 
-  const handleGSTChange = (val) =>{
+  const handleGSTChange = (val) => {
     setGST(val);
-  }
+  };
 
   const isFormValid = () => {
     return (
@@ -267,49 +298,142 @@ const page = () => {
     );
   };
 
+  // const handleInvoiceOpen = () => {
+  //   if (
+  //     customerName &&
+  //     customerPhone &&
+  //     estimateNo &&
+  //     salesLeader &&
+  //     grandTotal != 0
+  //   ) {
+  //     setShowPdf(true);
+  //   } else {
+  //     alert("Please fill all required fields before generating the invoice.");
+  //   }
+  // };
+
   const handleInvoiceOpen = () => {
-    if (customerName && customerPhone && estimateNo && salesLeader &&grandTotal != 0) {
-      setShowPdf(true);
-    } else {
-      alert("Please fill all required fields before generating the invoice.");
-    }
-  };
+  if (customerName && customerPhone && estimateNo && salesLeader && grandTotal != 0) {
+    setShowDetailsDialog(true);   // ← must be this, not setShowPdf(true)
+  } else {
+    alert("Please fill all required fields before generating the invoice.");
+  }
+};
 
   const capitalizeFirst = (text) => {
     if (!text) return "";
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editDraft, setEditDraft] = useState(null);
+
+  // Recompute total + sqFeet for a draft row (accessory vs normal works)
+  const computeDraftTotals = (draft) => {
+    const isAcc = draft.workCategory?.category === "Accessories";
+    let total = 0;
+    let area = null;
+
+    if (isAcc) {
+      const qty = parseFloat(draft.count) || 0;
+      const rate = parseFloat(draft.ratePerSqFeet) || 0;
+      total = qty * rate;
+    } else {
+      const L = (parseFloat(draft.length) || 0) / 30.48;
+      const H = (parseFloat(draft.height) || 0) / 30.48;
+      const rate = parseFloat(draft.ratePerSqFeet) || 0;
+      area = L * H;
+      total = area * rate;
+    }
+
+    return {
+      ...draft,
+      sqFeet: isAcc ? null : area.toFixed(2),
+      totalRate: total.toFixed(2),
+    };
+  };
+
+  const startEdit = (index) => {
+    setEditingIndex(index);
+    setEditDraft({ ...invoiceList[index] });
+  };
+
+  const cancelEdit = () => {
+    setEditingIndex(null);
+    setEditDraft(null);
+  };
+
+  const updateEditDraft = (field, value) => {
+    setEditDraft((prev) => computeDraftTotals({ ...prev, [field]: value }));
+  };
+
+  const handleEditCategoryChange = (id) => {
+    const cat = interiorWorks.find((c) => c.id === Number(id));
+    setEditDraft((prev) =>
+      computeDraftTotals({
+        ...prev,
+        workCategory: cat,
+        // reset fields that don't apply to the new category type
+        length: cat?.category === "Accessories" ? null : prev.length || "",
+        height: cat?.category === "Accessories" ? null : prev.height || "",
+        count: cat?.category === "Accessories" ? prev.count || "" : null,
+      }),
+    );
+  };
+
+  const saveEdit = (index) => {
+    setInvoiceList((prev) =>
+      prev.map((row, i) => (i === index ? editDraft : row)),
+    );
+    setEditingIndex(null);
+    setEditDraft(null);
+  };
+
+  const deleteRow = (index) => {
+    setInvoiceList((prev) => prev.filter((_, i) => i !== index));
+    if (editingIndex === index) cancelEdit();
+  };
+
   return (
     <div className="px-5 py-5 mt-2 bg-cover relative right-0 top-0 rounded-2xl lg:border-1">
       <h1 className="text-2xl font-bold mb-5">Dashboard</h1>
 
-      <div className='grid grid-cols-2 gap-10' >
-        <div className='mb-5'>
-          <h5><b>Customer Details</b></h5>
+      <div className="grid grid-cols-2 gap-10">
+        <div className="mb-5">
+          <h5>
+            <b>Customer Details</b>
+          </h5>
           <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mt-3">
             <div>
-              <Label className="mb-2">Customer Name<span className='text-red-500'>*</span></Label>
+              <Label className="mb-2">
+                Customer Name<span className="text-red-500">*</span>
+              </Label>
               <Input
-                type="text" 
+                type="text"
                 value={customerName}
-                onChange={(e) => setCustomerName(capitalizeFirst(e.target.value))}
+                onChange={(e) =>
+                  setCustomerName(capitalizeFirst(e.target.value))
+                }
                 className="dark:border-#FFF-600"
               />
             </div>
             <div>
               <Label className="mb-2">Address</Label>
               <Input
-                type="text"  
+                type="text"
                 value={customerAddress}
-                onChange={(e) => setCustomerAddress(capitalizeFirst(e.target.value))}
+                onChange={(e) =>
+                  setCustomerAddress(capitalizeFirst(e.target.value))
+                }
                 className="dark:border-#FFF-600"
               />
             </div>
             <div>
-              <Label className="mb-2">Phone Number<span className='text-red-500'>*</span></Label>
-              <Input 
-                type="text" 
+              <Label className="mb-2">
+                Phone Number<span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="text"
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
                 className="dark:border-#FFF-600"
@@ -318,7 +442,7 @@ const page = () => {
             <div>
               <Label className="mb-2">Email</Label>
               <Input
-                type="email"  
+                type="email"
                 value={customerEmail}
                 onChange={(e) => setCustomerEmail(e.target.value)}
                 className="dark:border-#FFF-600"
@@ -326,13 +450,17 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className='mb-5'>
-          <h5><b>Estimate Details</b></h5>
+        <div className="mb-5">
+          <h5>
+            <b>Estimate Details</b>
+          </h5>
           <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mt-3">
             <div>
-              <Label className="mb-2">Estimate No<span className='text-red-500'>*</span></Label>
+              <Label className="mb-2">
+                Estimate No<span className="text-red-500">*</span>
+              </Label>
               <Input
-                type="text" 
+                type="text"
                 value={estimateNo}
                 onChange={(e) => setEstimateNo(e.target.value)}
                 className="dark:border-#FFF-600"
@@ -348,20 +476,22 @@ const page = () => {
               />
             </div> */}
             <div>
-              <Label className="mb-2">Sales Team Leader<span className='text-red-500'>*</span></Label>
-              <Input 
-                type="text" 
+              <Label className="mb-2">
+                Sales Team Leader<span className="text-red-500">*</span>
+              </Label>
+              <Input
+                type="text"
                 value={salesLeader}
-                onChange={(e) => setSalesLeader(e.target.value)}  
+                onChange={(e) => setSalesLeader(e.target.value)}
                 className="dark:border-#FFF-600"
               />
             </div>
             <div>
               <Label className="mb-2">Mobile</Label>
               <Input
-                type="text"  
+                type="text"
                 value={mobile}
-                onChange={(e) => setMobile(e.target.value)}    
+                onChange={(e) => setMobile(e.target.value)}
                 className="dark:border-#FFF-600"
               />
             </div>
@@ -375,16 +505,23 @@ const page = () => {
             <TableRow>
               <TableHead>SR.</TableHead>
               <TableHead>WORKS</TableHead>
-              <TableHead>LENGTH (cm)<span className='text-red-500'>*</span></TableHead>
-              <TableHead>HEIGHT (cm)<span className='text-red-500'>*</span></TableHead>
+              <TableHead>
+                LENGTH (cm)<span className="text-red-500">*</span>
+              </TableHead>
+              <TableHead>
+                HEIGHT (cm)<span className="text-red-500">*</span>
+              </TableHead>
               <TableHead>SQ FEET</TableHead>
               <TableHead>QTY</TableHead>
-              <TableHead>UNIT PRICE <span className='text-red-500'>*</span></TableHead>
+              <TableHead>
+                UNIT PRICE <span className="text-red-500">*</span>
+              </TableHead>
               <TableHead>AMOUNT</TableHead>
+              <TableHead>EDIT/DELETE</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {
+            {/* {
               invoiceList.length > 0 && invoiceList.map((row, index) => (
               <TableRow key={`row-${index}`}>
                 <TableCell>{index + 1}</TableCell>
@@ -470,146 +607,321 @@ const page = () => {
                   </>
                 )}
               </TableRow> ))
-            }
+            } */}
+            {invoiceList.length > 0 &&
+              invoiceList.map((row, index) => {
+                const isEditing = editingIndex === index;
+                const draft = isEditing ? editDraft : row;
+                const isAccRow = draft.workCategory?.category === "Accessories";
 
-              {/* New row input fields */}
-              <TableRow>
-                <TableCell>{invoiceList.length + 1}</TableCell>
-                <TableCell className="flex flex-col gap-2">
-                  <Select value={selectedCategory ? selectedCategory.id : ""} onValueChange={handleCategoryChange}>
-                    <SelectTrigger className="w-[240px] bg-blue-100 py-[20px] dark:border-#FFF-600">
-                      <SelectValue placeholder="Select a work" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Works</SelectLabel>
-                        {interiorWorks.map((work, index) => (
-                          <SelectItem key={work.id} value={work.id}>
-                            <div className="flex flex-col items-start text-left">
-                              <span>{work.category}</span>
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                return (
+                  <TableRow key={`row-${index}`}>
+                    <TableCell>{index + 1}</TableCell>
 
-                  {selectedCategory && (
-                    <Input
-                      className="bg-blue-100 w-[240px] dark:border-#FFF-600"
-                      placeholder="Enter material"
-                      value={workMaterial}
-                      onChange={e => setWorkMaterial(e.target.value)}
-                    />
-                  )}
-                </TableCell>
-                {workMaterial ? (
-                  <>
+                    <TableCell className="flex flex-col gap-2">
+                      {isEditing ? (
+                        <Select
+                          value={draft.workCategory?.id?.toString()}
+                          onValueChange={handleEditCategoryChange}
+                        >
+                          <SelectTrigger className="w-[240px] bg-blue-100 py-[20px] dark:border-#FFF-600">
+                            <SelectValue placeholder="Select a work" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Works</SelectLabel>
+                              {interiorWorks.map((work) => (
+                                <SelectItem
+                                  key={work.id}
+                                  value={work.id.toString()}
+                                >
+                                  {work.category}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Input
+                          value={row.workCategory?.category || ""}
+                          readOnly
+                          className="bg-blue-100 w-[240px] dark:border-#FFF-600"
+                        />
+                      )}
+
+                      <Input
+                        value={draft.workMaterial || ""}
+                        readOnly={!isEditing}
+                        onChange={(e) =>
+                          updateEditDraft("workMaterial", e.target.value)
+                        }
+                        className="bg-blue-100 w-[240px] dark:border-#FFF-600 disabled:opacity-85"
+                      />
+                    </TableCell>
+
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:pointer-none"
-                        value={length}
-                        onChange={(e) => handleLengthChange(e.target.value)}
-                        disabled={isAccessory} 
+                        className="w-25 dark:border-#FFF-600 disabled:opacity-85 disabled:cursor-not-allowed"
+                        value={draft.length || ""}
+                        onChange={(e) =>
+                          updateEditDraft("length", e.target.value)
+                        }
+                        disabled={!isEditing || isAccRow}
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-                        value={height}
-                        onChange={(e) => handleHeightChange(e.target.value)}
-                        disabled={isAccessory} 
+                        className="w-25 dark:border-#FFF-600 disabled:cursor-not-allowed disabled:opacity-85"
+                        value={draft.height || ""}
+                        onChange={(e) =>
+                          updateEditDraft("height", e.target.value)
+                        }
+                        disabled={!isEditing || isAccRow}
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-                        value={sqFeet}
-                        disabled={isAccessory} 
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        className="w-25 dark:border-#FFF-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-                        value={count}
-                        onChange={(e) => handleCountChange(e.target.value)}
-                        disabled={!isAccessory}   
+                        className="w-25 dark:border-#FFF-600 disabled:cursor-not-allowed disabled:opacity-85"
+                        value={draft.sqFeet || ""}
+                        disabled
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600"
-                        value={ratePerSqFeet}
-                        onChange={e => setRatePerSqFeet(e.target.value)}
+                        className="w-25 dark:border-#FFF-600  disabled:cursor-not-allowed disabled:opacity-85"
+                        value={draft.count || ""}
+                        onChange={(e) =>
+                          updateEditDraft("count", e.target.value)
+                        }
+                        disabled={!isEditing || !isAccRow}
                       />
                     </TableCell>
                     <TableCell>
                       <Input
                         type="text"
-                        className="w-25 dark:border-#FFF-600"
-                        value={totalRate}
+                        className="w-25 dark:border-#FFF-600 disabled:opacity-85"
+                        value={draft.ratePerSqFeet || ""}
+                        onChange={(e) =>
+                          updateEditDraft("ratePerSqFeet", e.target.value)
+                        }
+                        disabled={!isEditing}
                       />
                     </TableCell>
-                  </>
-                ) : (
-                  <>
-                    <TableCell>-</TableCell>
-                    <TableCell>-</TableCell>
-                    <TableCell>-</TableCell>
-                    <TableCell>-</TableCell>
-                    <TableCell>-</TableCell>
-                    <TableCell>-</TableCell>
-                  </>
-                )}
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan="6"></TableCell>
-                <TableCell className="font-bold">SUB TOTAL</TableCell>
-                <TableCell className="font-bold">{subTotal}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan="5"></TableCell>
-                <TableCell className="font-bold">GST(%)</TableCell>
-                <TableCell>
+                    <TableCell className="">
+                      <span>{draft.totalRate}</span>
+                    </TableCell>
+                    <TableCell>
+                      {isEditing ? (
+                        <>
+                          <Button
+                            size="icon"
+                            variant="secondary"
+                            className="cursor-pointer me-2"
+                            onClick={() => saveEdit(index)}
+                          >
+                            <Save className="w-4 h-4 text-green-600" />
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="secondary"
+                            className="cursor-pointer"
+                            onClick={cancelEdit}
+                          >
+                            <X className="w-4 h-4 text-gray-500" />
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            size="icon"
+                            variant="secondary"
+                            className="cursor-pointer me-2"
+                            onClick={() => startEdit(index)}
+                          >
+                            <Pencil className="w-4 h-4 text-blue-600" />
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="secondary"
+                            className="cursor-pointer"
+                            onClick={() => deleteRow(index)}
+                          >
+                            <Trash2 className="w-4 h-4 text-red-500" />
+                          </Button>
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+
+            {/* New row input fields */}
+            <TableRow>
+              <TableCell>{invoiceList.length + 1}</TableCell>
+              <TableCell className="flex flex-col gap-2">
+                <Select
+                  value={selectedCategory ? selectedCategory.id : ""}
+                  onValueChange={handleCategoryChange}
+                >
+                  <SelectTrigger className="w-[240px] bg-blue-100 py-[20px] dark:border-#FFF-600">
+                    <SelectValue placeholder="Select a work" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Works</SelectLabel>
+                      {interiorWorks.map((work, index) => (
+                        <SelectItem key={work.id} value={work.id}>
+                          <div className="flex flex-col items-start text-left">
+                            <span>{work.category}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+
+                {selectedCategory && (
                   <Input
-                    type="text"
-                    className="w-25 dark:border-#FFF-600"
-                    value={gst}
-                    onChange={(e) => handleGSTChange(e.target.value)}
+                    className="bg-blue-100 w-[240px] dark:border-#FFF-600"
+                    placeholder="Enter material"
+                    value={workMaterial}
+                    onChange={(e) => setWorkMaterial(e.target.value)}
                   />
-                </TableCell>
-                <TableCell className="font-bold">{gstAmount}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan="6">
-                  <div className="items-center flex mt-4">
-                    <Button className="cursor-pointer" onClick={addRow}>
-                      <Plus className="w-4" />
-                    </Button>
-                    <Button className="cursor-pointer ms-2" onClick={handleInvoiceOpen}>Invoice</Button>
-                    <Button className="cursor-pointer ms-2" disabled={!isFormValid()} >Save</Button>
-                  </div>
-                </TableCell>
-                <TableCell className="font-bold">TOTAL</TableCell>
-                <TableCell className="font-bold">{grandTotal}</TableCell>
-              </TableRow>
+                )}
+              </TableCell>
+              {workMaterial ? (
+                <>
+                  <TableCell>
+                    <Input
+                      type="text"
+                      className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed disabled:pointer-none"
+                      value={length}
+                      onChange={(e) => handleLengthChange(e.target.value)}
+                      disabled={isAccessory}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      type="text"
+                      className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                      value={height}
+                      onChange={(e) => handleHeightChange(e.target.value)}
+                      disabled={isAccessory}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      type="text"
+                      className="w-25 dark:border-#FFF-600  disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                      value={sqFeet}
+                      disabled={isAccessory}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      className="w-25 dark:border-#FFF-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                      value={count}
+                      onChange={(e) => handleCountChange(e.target.value)}
+                      disabled={!isAccessory}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      type="text"
+                      className="w-25 dark:border-#FFF-600"
+                      value={ratePerSqFeet}
+                      onChange={(e) => setRatePerSqFeet(e.target.value)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      type="text"
+                      className="w-25 dark:border-#FFF-600"
+                      value={totalRate}
+                    />
+                  </TableCell>
+                </>
+              ) : (
+                <>
+                  <TableCell>-</TableCell>
+                  <TableCell>-</TableCell>
+                  <TableCell>-</TableCell>
+                  <TableCell>-</TableCell>
+                  <TableCell>-</TableCell>
+                  <TableCell>-</TableCell>
+                  <TableCell>-</TableCell>
+                </>
+              )}
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan="6"></TableCell>
+              <TableCell className="font-bold">SUB TOTAL</TableCell>
+              <TableCell className="font-bold">{subTotal}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan="5"></TableCell>
+              <TableCell className="font-bold">GST(%)</TableCell>
+              <TableCell>
+                <Input
+                  type="text"
+                  className="w-25 dark:border-#FFF-600"
+                  value={gst}
+                  onChange={(e) => handleGSTChange(e.target.value)}
+                />
+              </TableCell>
+              <TableCell className="font-bold">{gstAmount}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan="6">
+                <div className="items-center flex mt-4">
+                  <Button className="cursor-pointer" onClick={addRow}>
+                    <Plus className="w-4" />
+                  </Button>
+                  <Button
+                    className="cursor-pointer ms-2"
+                    onClick={handleInvoiceOpen}
+                  >
+                    Invoice
+                  </Button>
+                  <Button
+                    className="cursor-pointer ms-2"
+                    disabled={!isFormValid()}
+                  >
+                    Save
+                  </Button>
+                </div>
+              </TableCell>
+              <TableCell className="font-bold">TOTAL</TableCell>
+              <TableCell className="font-bold">{grandTotal}</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
 
+        <InvoiceDetailsDialog
+          open={showDetailsDialog}
+          onOpenChange={setShowDetailsDialog}
+          data={footerData}
+          onSave={handleFooterSave}
+        />
+
         <Dialog open={showPdf} onOpenChange={setShowPdf}>
-          <DialogContent className="lg:max-w-[1200px] h-[90vh] rounded-lg overflow-y-auto"  hideClose >
-            <div className="w-full h-full flex flex-col" ref={ pdfRef}>
-              <div className="flex-1 p-6" >
+          <DialogContent
+            className="lg:max-w-[1200px] h-[90vh] rounded-lg overflow-y-auto"
+            hideClose
+          >
+            <div className="w-full h-full flex flex-col" ref={pdfRef}>
+              <div className="flex-1 p-6">
                 <Invoice
                   invoiceList={invoiceList}
                   subTotal={subTotal}
                   gst={gst}
                   gstAmount={gstAmount}
                   grandTotal={grandTotal}
+                  footerData={footerData}
                   draftRow={{
                     workCategory,
                     workMaterial,
@@ -625,27 +937,35 @@ const page = () => {
                     name: customerName,
                     address: customerAddress,
                     phone: customerPhone,
-                    email: customerEmail
+                    email: customerEmail,
                   }}
                   estimate={{
                     estimateNumber: estimateNo,
                     name: salesLeader,
                     // date: formattedDate,
-                    mob: mobile
+                    mob: mobile,
                   }}
                 />
               </div>
+             
               <div className="flex justify-end gap-2 p-4 border-t print:hidden">
-                <Button className="cursor-pointer" onClick={handlePrint}>Print</Button>
-                <Button className="cursor-pointer"  variant="secondary" onClick={() => setShowPdf(false)}>Close</Button>
+                <Button className="cursor-pointer" onClick={handlePrint}>
+                  Print
+                </Button>
+                <Button
+                  className="cursor-pointer"
+                  variant="secondary"
+                  onClick={() => setShowPdf(false)}
+                >
+                  Close
+                </Button>
               </div>
             </div>
           </DialogContent>
         </Dialog>
-      
       </div>
     </div>
   );
-}
+};
 
-export default page
+export default page;

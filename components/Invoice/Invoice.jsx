@@ -4,9 +4,11 @@ import { useReactToPrint } from "react-to-print";
 import { Button } from "../ui/button";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { InvoiceFooter } from "../InvoiceDetailsDialog/InvoiceFooter";
+import { defaultFooterData } from "@/constants/invoiceFooterDefaults";
 
 
-const Invoice = ({ invoiceList = [], subTotal, gst, gstAmount, grandTotal, draftRow, customer, estimate }) => {
+const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer }) => {
 
   const fullList = invoiceList.filter(item => item.totalRate > 0);
 
@@ -15,8 +17,8 @@ const Invoice = ({ invoiceList = [], subTotal, gst, gstAmount, grandTotal, draft
   }
 
   return (
-    <div className="p-6 border border-black text-sm text-black bg-white overflow-auto">
-      <div className="flex justify-between border-b-2 border-black pb-4 mb-4 bg-white ">
+    <div className="p-6text-sm text-black bg-white overflow-auto">
+      <div className="flex justify-between border-b-1 border-black pb-4 mb-4 bg-white ">
         <div>
           <p>
             <b>To,</b>
@@ -46,104 +48,62 @@ const Invoice = ({ invoiceList = [], subTotal, gst, gstAmount, grandTotal, draft
       </div>
       <div className="mb-4">
         <p>
-          <b>Date:</b> {new Date().toLocaleDateString("en-GB")} <br />
-          <b>Estimate No:</b> {estimate.estimateNumber} <br />
-          <b>Sales Team Leader:</b> {estimate.name}<br />
-          <b>Mob:</b> {estimate.mob} <br />
+          <b>Estimate No:</b> D2R.23673 <br />
+            <b>Date:</b> {new Date().toLocaleDateString("en-GB")} <br />
+          <b>Sales Team Leader:</b> REJOY ANTONY C <br />
+          <b>Mob:</b> +91 6282276583 <br />
         </p>
       </div>
-      {/* ITEMS TABLE */}
-      <table className="w-full border-collapse border border-black text-center text-xs">
-        <thead>
-          <tr className="bg-red-700 text-white">
-            <th className="border border-black p-2 w-5">SR.NO</th>
-            <th className="border border-black p-2  w-30">WORK</th>
-            <th className="border border-black p-2 w-20">LENGTH (cm)</th>
-            <th className="border border-black p-2 w-20">HEIGHT (cm)</th>
-            <th className="border border-black p-2 w-20">SQ FEET</th>
-            <th className="border border-black p-2 w-20">QUANTITY</th>
-            <th className="border border-black p-2 w-20">UNIT PRICE</th>
-            <th className="border border-black p-2 w-24">AMOUNT</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {fullList.map((item, index) => (
-            <tr key={index}>
-              <td className="border border-black p-2">
-                {index + 1}
-              </td>
-
-              <td className="border border-black p-2 ">
-                <div className="flex flex-col">
-                  <span>
-                    {item.workCategory?.category || item.workCategory}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {item.workMaterial?.meterial || item.workMaterial}
-                  </span>
-                </div>
-              </td>
-
-              <td className="border border-black p-2">
-                {item.length || "-"}
-              </td>
-
-              <td className="border border-black p-2">
-                {item.height || "-"}
-              </td>
-
-              <td className="border border-black p-2">
-                {item.sqFeet || "-"}
-              </td>
-
-              <td className="border border-black p-2">
-                {item.count || "-"}
-              </td>
-
-              <td className="border border-black p-2 text-right">
-                {item.ratePerSqFeet}
-              </td>
-
-              <td className="border border-black p-2 text-right">
-                {item.totalRate}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* TOTALS TABLE */}
-      <table className="ml-auto mt-4 border-collapse text-xs">
-        <tbody>
-          <tr className="border-t border-black">
-            <td className="p-2 text-right font-bold w-40">
-              Subtotal
+     <table className="w-full border-collapse border border-black text-center text-xs">
+      <thead>
+        <tr className="bg-red-700 text-white">
+          <th className="border border-black p-2">SR.NO</th>
+          <th className="border border-black p-2">WORK</th>
+          <th className="border border-black p-2">LENGTH</th>
+          <th className="border border-black p-2">HEIGHT</th>
+          <th className="border border-black p-2">SQ FEET</th>
+          <th className="border border-black p-2">RATE PER SQ FEET</th>
+          <th className="border border-black p-2">TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        {fullList.map((item, index) => (
+          <tr key={index} className={index === invoiceList.length ? "bg-yellow-50" : ""}>
+            <td className="border border-black p-2">{index + 1}</td>
+            <td className="border border-black p-2">
+              <div className="flex flex-col">
+                <span className="mb-2">{item.workCategory?.category || item.workCategory}</span>
+                <span className="text-xs text-gray-500">{item.workMaterial?.meterial || item.workMaterial}</span>
+              </div>
             </td>
-            <td className="p-2 text-right font-bold w-32">
-              {subTotal}
+            <td className="border border-black p-2">{item.length}</td>
+            <td className="border border-black p-2">{item.height}</td>
+            <td className="border border-black p-2">{item.sqFeet}</td>
+            <td className="border border-black p-2">{item.ratePerSqFeet}</td>
+            <td className="border border-black p-2">{item.totalRate}</td>
+          </tr>
+        ))}
+        
+          <tr>
+            <td colSpan="6" className="border border-black p-2 text-right font-bold">
+              GST(%)
+            </td>
+            <td className="border border-black p-2 font-bold">
+              {gst}
             </td>
           </tr>
 
-          <tr className="border-b border-black">
-            <td className="p-2 text-right font-bold">
-              GST ({gst}%)
+          <tr>
+            <td colSpan="6" className="border border-black p-2 text-right font-bold">
+              Grand Total
             </td>
-            <td className="p-2 text-right font-bold">
-              {gstAmount}
-            </td>
-          </tr>
-
-          <tr className="border-b-2 border-black">
-            <td className="p-2 text-right font-bold text-sm">
-              Total
-            </td>
-            <td className="p-2 text-right font-bold text-sm">
-              {Number(grandTotal).toFixed(2)}
+            <td className="border border-black p-2 font-bold">
+                {Number(grandTotal).toFixed(2)}
             </td>
           </tr>
         </tbody>
-      </table>
-
+    </table>
+     <InvoiceFooter footerData={defaultFooterData}/>
     </div>
   );
 };
