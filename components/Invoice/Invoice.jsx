@@ -8,11 +8,11 @@ import { InvoiceFooter } from "../InvoiceDetailsDialog/InvoiceFooter";
 import { defaultFooterData } from "@/constants/invoiceFooterDefaults";
 
 
-const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer, estimate }) => {
+const Invoice = ({ invoiceList = [], grandTotal, gst,gstAmount, draftRow, customer, estimate }) => {
 
   const fullList = invoiceList.filter(item => item.totalRate > 0);
 
-  console.log(estimate);
+  console.log(gstAmount);
 
   if ( draftRow && draftRow.workMaterial && draftRow.totalRate > 0 ) {
     fullList.push(draftRow);
@@ -88,10 +88,10 @@ const Invoice = ({ invoiceList = [], grandTotal, gst, draftRow, customer, estima
         
           <tr>
             <td colSpan="6" className="border border-black p-2 text-right font-bold">
-              GST(%)
+              GST({gst}%)
             </td>
             <td className="border border-black p-2 font-bold">
-              {gst}
+              {gstAmount}
             </td>
           </tr>
 
